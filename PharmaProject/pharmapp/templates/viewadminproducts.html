@@ -1,0 +1,508 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    .productcontainer {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .quantity {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .formContainer {
+        width: 100%;
+        height: 100px;
+        position: relative;
+        right: 282px;
+    }
+
+    .formContainer input {
+        height: 30px;
+        width: 250px;
+    }
+
+    .formContainer textarea {
+        height: 65px;
+        width: 250px;
+    }
+
+    .closepopup {
+        position: relative;
+        bottom: 140px;
+        left: 300px;
+        width: 80px;
+        height: 26px;
+        background-color: burlywood;
+    }
+
+    .menubuttons {
+        width: 100%;
+        height: 70px;
+        background-color: whitesmoke;
+        padding-top: 15px;
+        display: flex;
+        align-items: start;
+        align-items: center
+    }
+
+    .menubuttons button {
+        margin-left: 10px;
+        width: 110px;
+        height: 32px;
+        background-color: burlywood;
+
+    }
+
+
+    .closeviewproduct {
+        position: relative;
+        bottom: 260px;
+        left: 325px;
+        width: 80px;
+        height: 26px;
+        background-color: burlywood;
+
+    }
+
+    button {
+        border: none;
+    }
+
+    .search-container {
+        display: flex;
+        width: 650px;
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    #search-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+    }
+
+    #search-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 16px;
+        height: 38px;
+    }
+
+
+
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        color: #333;
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+        border-bottom: 2px solid #ccc;
+    }
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        /* Align table data to center */
+        font-size: 12px;
+    }
+
+    td:last-child {
+        text-align: center;
+    }
+
+
+
+    .productdetails a {
+        display: inline-block;
+        padding: 6px 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+</style>
+
+<body>
+
+
+
+
+
+    <!-- #######################  pop up box ################################# -->
+
+    <div class="menubuttons">
+        <button onclick="openPopup()">Add Products</button>
+        <button onclick=""><a style="text-decoration: none;" href="{% url 'admin' %}">View Product</a>
+        </button>
+        <button onclick=""><a style="text-decoration: none;" href="{% url 'menu' %}">Add Category</a>
+        </button>
+        <button onclick=""><a style="text-decoration: none;" href="{% url 'viewadminproducts' %}">View Category</a>
+        </button>
+
+        <div style="width: 78%;
+    display: flex;
+    justify-content: end;">
+
+
+
+
+
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search...">
+                <button id="search-button">Search</button>
+
+                <div style="width:20%;display:flex;justify-content:end">
+
+                    <button style="margin-left:20px">Logout</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- ####################### add products ################################# -->
+
+    <div id="popupBox"
+        style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div
+            style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 450px;">
+            <div style="text-align: center;">
+
+                <h2 style="text-align:center;margin-top:10px;color:blue">Add Products</h2>
+                <hr>
+                <div style="width:100%; height: 100px;margin-left:270px">
+                    <form action="/home" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div style="width:100%" class="formContainer">
+                            <p>Product Name</p>
+                            <input type="text" name="name" placeholder="Product Name" required><br><br>
+                            <p>Product Description</p>
+                            <textarea name="description" placeholder="Product Description" required></textarea><br><br>
+                            <p>Product Image</p>
+
+                            <div
+                                style="width: 100%;height: 150px;display:flex;justify-content:center;align-items:center">
+                                <input type="file" name="image" onchange="previewImage(event)" required><br><br>
+
+                                <img id="preview" src="" alt="Selected image preview" style="display: none;" width="125"
+                                    height="100">
+                            </div>
+
+                            <input type="submit" value="Add Product" style="background-color: burlywood;">
+                        </div>
+                    </form>
+                </div>
+
+
+                <button class="closepopup" onclick="closePopup()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ################################################################################################################################ -->
+
+    <!-- ####################### Update or Edit products ################################# -->
+
+    <div id="editupdatepopup"
+        style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div
+            style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 400px;">
+            <div style="text-align: center;">
+
+                <h2 style="text-align:center;margin-top:10px;color:blue">Update Products</h2>
+                <hr>
+                <div style="width:100%; height: 100px;margin-left:270px">
+                    <form action="/edit" method="POST" enctype="multipart/form-data" id="updateform">
+                        {% csrf_token %}
+
+                        <div style="width:100%" class="formContainer">
+                            <input id="productid" type="hidden" name="productid" value="">
+                            <p>Product Name</p>
+                            <input id="productname" type="text" name="name" placeholder="Product Name" value=""
+                                required><br><br>
+                            <p>Product Description</p>
+                            <textarea id="description" name="description" placeholder="Product Description" value=""
+                                required></textarea><br><br>
+                            <p>Product Image</p>
+                            <div
+                                style="width: 100%;height: 150px;display:flex;justify-content:center;align-items:center">
+
+                                <input id="image" type="file" name="image" onchange="previewImage(event)"
+                                    required><br><br>
+                                <img id="preview" src="" alt="Selected image preview" style="display: none;" width="125"
+                                    height="100">
+                            </div>
+                            <input type="submit" value="Update" style="background-color: burlywood;">
+                        </div>
+                    </form>
+                </div>
+
+
+                <button class="closepopup" onclick="closeeditproducts()">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="display:flex;width:100%">
+
+        <div style="width:100%;height:inherit;padding: 10px;">
+
+
+            {% for prod in Product %}
+            {% if forloop.counter0|divisibleby:5 %}
+            <div class="row" style="margin-bottom:10px;display:none">
+                {% endif %}
+
+                <div class="col">
+                    <img src="{{ prod.image.url }}" width="170" height='170'>
+                    <div style="width:202px; height:inherit;">
+                        <div style="width:100%;overflow:hidden">
+                            <p style="text-align:center;margin-bottom:3px;font-size: 14px;">{{prod.name}}</p>
+                        </div>
+                        <!-- <p style="font-size: 10px;">{{prod.description}}</p> -->
+                        <div style="display:flex;justify-content: space-evenly;">
+                            <button style="border-radius: 8px;width: 60px;
+            height: 25px;background-color: burlywood;"
+                                onclick="viewproducts(`{{ prod.name }}`, `{{ prod.description }}`, `{{ prod.image.url }}`)">View</button>
+
+                            <button style="border-radius: 8px;width: 60px;
+            height: 25px;background-color: burlywood;"
+                                onclick="editproducts(`{{ prod.name }}`, `{{ prod.description }}`, `{{ prod.image.url }}`, `{{prod.id}}`)">Edit</button>
+
+
+                            <form action="/delete" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="productdeleteid" id="productdeleteid" value="{{prod.id}}">
+                                <button style="border-radius: 8px;width: 60px;
+              height: 25px;background-color: burlywood;" onclick="deleteproducts()" type="submit">Delete</button>
+                            </form>
+                        </div>
+
+                        <!-- <button onclick="editProducts()">Edit</button> -->
+
+
+                    </div>
+
+                </div>
+
+                {% if forloop.counter0|add:1|divisibleby:5 or forloop.last %}
+            </div>
+            {% endif %}
+
+
+
+
+            <!-- ############################3 view Products ######################### -->
+
+            <div id="viewproductspopup"
+                style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+                <div
+                    style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 400px;">
+                    <div style="text-align: center;">
+
+                        <h2 style="text-align:center;margin-top:10px;color:blue"> Products Details</h2>
+                        <hr>
+
+
+                        <img id="productimg" src="{{ prod.image.url }}" width="170" height='170'>
+                        <p id="productnames">{{prod.name}}</p>
+                        <div style="width: 241px;
+          height: inherit;
+          position: relative;
+          left: 255px;
+          top: 25px;">
+                            <p id="productdesc" style="font-size: 10px;">{{prod.description}}</p>
+                        </div>
+
+
+                        <button class="closeviewproduct" onclick="closeviewproducts()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ################################################################################################################################ -->
+
+
+
+
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <table class="productdetails">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Product</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for parent, children in root_parents_with_children %}
+            <tr>
+                <td>{{ parent.name }}</td>
+                <td>{% if children %}{{ children.name }}{% else %}No Data{% endif %}</td>
+                <td>
+                    <a href="{% url 'admin' %}">Delete</a>
+                    <a href="{% url 'admin' %}">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    <script>
+
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById("preview");
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        function deleteproducts(id) {
+            window.alert("Product deleted successfully")
+
+        }
+
+
+
+
+
+
+        function openPopup() {
+            document.getElementById("popupBox").style.display = "block";
+        }
+        function closePopup() {
+            document.getElementById("popupBox").style.display = "none";
+        }
+
+
+        function viewproducts(name, desc, url) {
+
+            document.getElementById("viewproductspopup").style.display = "block";
+
+            var paragraph = document.getElementById("productnames");
+            paragraph.textContent = name;
+
+            var paragraph = document.getElementById("productdesc");
+            paragraph.textContent = desc;
+
+            var image = document.getElementById("productimg");
+            image.src = url;
+        }
+        function closeviewproducts() {
+            document.getElementById("viewproductspopup").style.display = "none";
+        }
+
+
+
+
+
+        function editproducts(productname, description, image, id) {
+            document.getElementById("editupdatepopup").style.display = "block";
+
+            var productname = document.getElementById("productname").value = productname;
+            var description = document.getElementById("description").value = description;
+            var id = document.getElementById("productid").value = id;
+
+            var image = document.getElementById("image").src = image;
+
+
+
+        }
+        function closeeditproducts() {
+            document.getElementById("editupdatepopup").style.display = "none";
+
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

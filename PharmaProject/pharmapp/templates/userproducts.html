@@ -1,0 +1,452 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Menu</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        /* Style for form container */
+        .form-container {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            box-shadow: 0 0 10px #ccc;
+            position: relative;
+            top: 150px;
+            
+        }
+
+        /* Style for form elements */
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #f8f8f8;
+            box-shadow: inset 0 0 5px #ddd;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+
+
+
+
+
+
+
+        .menu-bar ul li.dropdown:hover>.dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: slateblue;
+        }
+
+
+        .menu-bar {
+            background-color: #333;
+            color: white;
+            height: 50px;
+            line-height: 50px;
+        }
+
+        .menu-bar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        .menu-bar ul li {
+            display: inline-block;
+        }
+
+        .menu-bar ul li a {
+            display: block;
+            padding: 0 20px;
+            text-decoration: none;
+            font-size:12px;
+        }
+
+   
+
+
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 50px;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            background-color: slateblue;
+        }
+
+        .dropdown-content ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            {% comment %} background-color: slateblue; {% endcomment %}
+        }
+
+        .dropdown-content ul li {
+            padding: 12px 16px;
+        }
+
+        {% comment %} .dropdown-content ul li:hover {
+            background-color: slateblue;
+        } {% endcomment %}
+
+        .dropdown-content ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+
+
+     
+        .menu-bar ul li.dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: slateblue;
+        }
+
+
+
+        .menu-bar ul li.dropdown:hover>.dropdown-content>ul>li {
+            display: block;
+        }
+
+        .menu-bar ul li.dropdown .dropdown-content>ul>li {
+            display: none;
+        }
+
+        .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li {
+            display: none;
+        }
+
+        .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li>ul>li {
+            display: none;
+        }
+
+        a,li{
+            font-size: 12px;
+            color: white;
+        }
+
+        .dropdown li, {
+            white-space: nowrap;
+
+        }
+
+
+
+
+        .closeviewproduct {
+          position: relative;
+          bottom: 260px;
+          left: 225px;
+          width: 80px;
+          height: 26px;
+          background-color: burlywood;
+          border:none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!-- addcategory.html -->
+    <div class="menu-bar">
+        <ul>
+            <li ><a href="/" style="font-size: 18px;">Home</a></li>
+          
+            <li class="dropdown">
+                <a href="#" style="font-size: 18px;">Products</a>
+                <ul class="dropdown-content">
+                    {% for menu in menu_tree %}
+                    <li class="dropdown">
+                        <a href="/menu">{{ menu.name }}</a>
+                        {% if menu.children %}
+                        <ul class="dropdown-content">
+                            {% for submenu in menu.children %}
+                            <li class="dropdown">
+                                <a href="#" style="white-space: nowrap;">{{ submenu.name }}</a>
+                                {% if submenu.children %}
+                                <ul class="dropdown-content">
+                                    {% for subsubmenu in submenu.children %}
+                                    <li><a href="#">{{ subsubmenu.name }}</a></li>
+                                    <!-- continue nesting as necessary for more levels -->
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li ><a href="#" style="font-size: 18px;">About Us</a></li>
+            <li ><a href="#" style="font-size: 18px;">Feedback</a></li>
+            <li ><a href="#" style="font-size: 18px;">Contact Us</a></li>
+        </ul>
+    </div>
+
+
+
+    <div style="width: 100%;
+    margin: auto;display:flex;justify-content:right;position: fixed;
+   ">
+      <button id="getquoteButton" style="width: 151px;
+     height: 36px;
+     background-color: burlywood;
+     border: none;
+     border-radius: 12px;margin-right:25px;margin-top:15px;position: fixed;display:none" onclick="opencontactpopup()">Get
+        Quotation</button>
+    </div>
+  
+  
+  
+    <div style="display: flex;
+    width: 100%;">
+  
+      <div style="width:100%;height:inherit;padding: 40px;">
+  
+        {% for prod in Product %}
+        {% if forloop.counter0|divisibleby:4 %}
+        <div class="row" style="margin-bottom:10px;display: flex;justify-content:space-evenely">
+          {% endif %}
+  
+          <div class="col" style="margin-left: 70px;">
+            <img src="{{ prod.image.url }}" width="170" height='170' style="margin-left: 16px;">
+            <div style="width:202px; height:inherit;">
+  
+            <div style="width:100%;display:flex;justify-content:space-evenly;overflow:hidden;">
+              <input type="checkbox" name="checkeditem" onclick="handleCheckboxClick(`{{ prod.description }}`)" id="myCheckbox"
+                value="{{prod.id}}">
+              <p style="font-size:15px">{{prod.name}}</p>
+            </div>
+              <!-- <p style="font-size: 10px;">{{prod.description}}</p> -->
+              <button style="width: 202px;
+              height: 25px;background-color: burlywood;border:none"
+                onclick="viewproducts(`{{ prod.name }}`, `{{ prod.description }}`, `{{ prod.image.url }}`)">Details</button>
+  
+  
+  
+            </div>
+  
+          </div>
+  
+          {% if forloop.counter0|add:1|divisibleby:4 or forloop.last %}
+        </div>
+        {% endif %}
+  
+  
+  
+  
+        <!-- ############################3 view Products ######################### -->
+  
+        <div id="viewproductspopup"
+          style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+          <div
+            style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 400px;">
+            <div style="text-align: center;">
+  
+              <h2 style="text-align:center;margin-top:10px;color:blue"> Products Details</h2>
+              <hr>
+  
+  
+              <img id="productimg" src="{{ prod.image.url }}" width="170" height='170'>
+              <p id="productnames">{{prod.name}}</p>
+              <div style="width: 241px;
+            height: inherit;
+            position: relative;
+            left: 255px;
+            top: 25px;">
+                <p id="productdesc" style="font-size: 10px;">{{prod.description}}</p>
+              </div>
+  
+  
+              <button class="closeviewproduct" onclick="closeviewproducts()">Close</button>
+            </div>
+          </div>
+        </div>
+  
+   
+        <!-- ############################3 Email Products(Contact popup) ######################### -->
+  
+        <div id="opencontactpopup"
+          style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+          <div
+            style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 400px;;overflow:scroll">
+            <div style="text-align: center">
+  
+              <h2 style="text-align:center;margin-top:10px;color:blue"> Products Details</h2>
+              <hr>
+  
+              <h3>Contact Form</h3>
+  
+              <div class="container">
+                <form action="/mail" method="post">
+                  {% csrf_token %}
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" placeholder="Your name.." required>
+  
+                  <label for="email">Email</label>
+                  <input type="email" name="email" id="email" placeholder="Your email" required>
+  
+                  <label for="contact">Contact</label>
+                  <input type="text" id="contact" name="contact" placeholder="Your contact.." required>
+  
+  
+                  <label for="subject">Quotation</label>
+                  <textarea id="sub" name="subject"  placeholder="Write something..." style="height:200px" required></textarea>
+  
+                  <button id="mailButton" style="width: 151px;
+                  height: 36px;
+                  background-color: burlywood;
+                  border: none;
+                  border-radius: 12px;">Mail</button>
+                </form>
+                <button style="width: 151px;
+                height: 36px;
+                background-color: burlywood;
+                border: none;
+                border-radius: 12px;color:white;margin-top:15px" class="closecontactpopup"
+                  onclick="closecontactpopup()">Close</button>
+              </div>
+  
+  
+  
+  
+  
+            </div>
+          </div>
+        </div>
+  
+  
+        {% endfor %}
+  
+  
+      </div>
+  
+  
+  
+    </div>
+  
+  
+  
+   
+  
+  
+  
+  
+    <script>
+  
+  
+  
+  
+      function handleCheckboxClick(desc) {
+  
+        localStorage.setItem("description", desc);
+  
+  
+       
+        var checkboxes = document.getElementsByName("checkeditem");
+        var button = document.getElementById("getquoteButton");
+  
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                button.style.display = "block";
+                return;
+            }
+        }
+  
+        button.style.display = "none";
+    }
+  
+      function opencontactpopup() {
+        var storedValue = localStorage.getItem("description");
+        var textarea = document.getElementById("sub");
+    textarea.value = storedValue;
+        document.getElementById("opencontactpopup").style.display = "block";
+  
+      }
+  
+      function closecontactpopup() {
+        document.getElementById("opencontactpopup").style.display = "none";
+  
+  
+      }
+  
+  
+      function viewproducts(name, desc, url) {
+  
+        document.getElementById("viewproductspopup").style.display = "block";
+  
+        var paragraph = document.getElementById("productnames");
+        paragraph.textContent = name;
+  
+        var paragraph = document.getElementById("productdesc");
+        paragraph.textContent = desc;
+  
+        var image = document.getElementById("productimg");
+        image.src = url;
+  
+       
+      }
+      function closeviewproducts() {
+        document.getElementById("viewproductspopup").style.display = "none";
+      }
+  
+  
+    </script>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+</body>
+
+</html>
