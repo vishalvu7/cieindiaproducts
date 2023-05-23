@@ -62,7 +62,8 @@
 
     width: 200px;
     height: 30px;
-    background-color: burlywood;
+    background-color: #34568B;
+color: white;
   }
 
   .editpopup {
@@ -79,14 +80,16 @@
     padding-top: 15px;
     display: flex;
     align-items: start;
-    align-items: center
   }
 
   .menubuttons button {
     margin-left: 10px;
     width: 110px;
-    height: 32px;
-    background-color: burlywood;
+    height: 25px;
+    background-color: #34568B;
+    border-radius: 5px;
+    color:white;
+    font-size: 10px;
 
   }
 
@@ -123,11 +126,11 @@
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 0 5px 5px 0;
-    padding: 10px 15px;
+    border-radius: 5px;
+    
     cursor: pointer;
-    font-size: 16px;
-    height: 38px;
+    font-size: 12px;
+    height: 25px;
   }
 
 
@@ -160,9 +163,143 @@
   td:last-child {
     text-align: center;
   }
+
+
+
+
+
+
+
+
+
+
+  .form-container {
+    width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    box-shadow: 0 0 10px #ccc;
+    position: relative;
+    top: 150px;
+    
+}
+
+/* Style for form elements */
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+select {
+    width: 94%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f8f8f8;
+    box-shadow: inset 0 0 5px #ddd;
+}
+
+button[type="submit"] {
+    display: block;
+    width: 40%;
+    
+    border-radius: 5px;
+    border: none;
+    background-color: #34568B;
+    color: #fff;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #3e8e41;
+}
+
+
+
+
+#popup-card {
+  display: none;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  width: 500px;
+  max-width: 90%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 320px;
+  }
+  
+  .popup-card-show {
+    display: block;
+  }
+  
+
 </style>
 
 <body>
+
+
+   <div class="form-container" id="popup-card">
+        <h2 style="text-align: center;">Create Category</h2>
+        <form id="create-menu-form" method="post" action="/menu">
+            {% csrf_token %}
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name">
+
+            <label for="parent">Parent:</label>
+            <select name="parent" id="parent">
+                <option value="">Product</option>
+                {% for menu in menuss %}
+                <option value="{{ menu.id }}">
+                    {% if menu.parent %}
+                    {% for i in 1|ljust:menu.depth %}
+                    &mdash;
+                    {% endfor %}
+                    {% endif %}
+                    {{ menu.name }}
+                </option>
+                {% endfor %}
+                <option value="__other__">Other</option>
+            </select>
+
+            <input type="text" name="parent_other" id="parent_other" style="display: none;">
+
+            <script>
+                var parentSelect = document.getElementById("parent");
+                var parentOtherInput = document.getElementById("parent_other");
+
+                parentSelect.addEventListener("change", function () {
+                    if (parentSelect.value === "__other__") {
+                        parentSelect.style.display = "none";
+                        parentOtherInput.style.display = "block";
+                    } else {
+                        parentSelect.style.display = "block";
+                        parentOtherInput.style.display = "none";
+                    }
+                });
+            </script>
+
+            <div style="display:flex;justify-content:space-evenly;align-items:center;margin-top: 55px;">
+              <button type="submit" style="    width: 25%;
+              border-radius: 5px;
+              background-color: #34568B;
+              color: white;
+              height: 35px;" s>Submit</button>
+              <button type="button" onclick="closeAddCategory()" style="    width: 25%;
+              border-radius: 5px;
+              background-color: #34568B;
+              color: white;
+              height: 35px;">Close</button>
+            </div>
+        </form>
+    </div>
 
 
 
@@ -172,11 +309,11 @@
 
   <div class="menubuttons">
     <button onclick="openPopup()">Add Products</button>
-    <button onclick=""><a style="text-decoration: none;" href="{% url 'admin' %}">View Product</a>
+    <button onclick=""><a style="text-decoration: none;color:white" href="{% url 'admin' %}">View Product</a>
     </button>
-    <button onclick=""><a style="text-decoration: none;" href="{% url 'menu' %}">Category</a>
+    <button onclick="openAddCategory()"><a style="text-decoration: none;">Add Category</a>
     </button>
-    <button onclick=""><a style="text-decoration: none;" href="{% url 'viewadminproducts' %}">View Category</a>
+    <button onclick=""><a style="text-decoration: none;color:white" href="{% url 'viewadminproducts' %}">View Category</a>
     </button>
 
     <div style="width: 78%;
@@ -195,8 +332,11 @@
         <button id="search-button" >Search</button>
 
         <div style="width:20%;display:flex;justify-content:end">
-          <button style="margin-left:20px">Logout</button>
-
+          <form action="/logout" method="post">
+            
+            <button type="submit" style="margin-left:20px">Logout</button>
+          </form>
+          
         </div>
       </div>
 
@@ -214,43 +354,66 @@
   <!-- ####################### add products ################################# -->
 
   <div id="popupBox"
-    style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-    <div
-      style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 450px;">
-      <div style="text-align: center;">
+  style="display: none; position: fixed; z-index: 1; padding-top: 8px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+  <div
+    style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 430px;">
+    <div style="text-align: center;">
+      <h2 style="text-align:center;margin-top:10px;color:blue;font-family: math;">Add Products</h2>
+      <hr>
+      <div style="width:100%; height: 100px;margin-left:270px">
+        <form action="/home" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div style="width:100%" class="formContainer">
+            <p>Product Name</p>
+            <input type="text" name="name" placeholder="Product Name" required><br><br>
+            <p>Product Category</p>
 
-        <h2 style="text-align:center;margin-top:10px;color:blue">Add Products</h2>
-        <hr>
-        <div style="width:100%; height: 100px;margin-left:270px">
-          <form action="/home" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <div style="width:100%" class="formContainer">
-              <p>Product Name</p>
-              <input type="text" name="name" placeholder="Product Name" required><br><br>
-              <p>Product Description</p>
-              <textarea name="description" placeholder="Product Description" required></textarea><br><br>
-              <p>Product Image</p>
-
-              <div style="width: 100%;height: 150px;display:flex;justify-content:center;align-items:center">
+            <select name="parent" id="parent" required>
+              <option value="">Product</option>
+              {% for menu in menuss %}
+              <option value="{{ menu.name }}">
+                  {% if menu.parent %}
+                  {% for i in 1|ljust:menu.depth %}
+                  &mdash;
+                  {% endfor %}
+                  {% endif %}
+                  {{ menu.name }}
+              </option>
+              {% endfor %}
+            </select>
+           
+            <div style="width: 100%;height: 120px;display:flex;justify-content:space-evenly;align-items:center">
+              <div>
+                <p>Product Description</p>
+                <textarea name="description" placeholder="Product Description" required></textarea><br><br>
+              </div>
+              <div style="display: flex;">
+                <p>Product Image</p>
                 <input type="file" name="image" onchange="previewImage(event)" required><br><br>
-
                 <img id="preview" src="" alt="Selected image preview" style="display: none;" width="125" height="100">
               </div>
-
-              <div style="width:100%;display: flex;justify-content:space-around">
-                <input type="submit" value="Add Product" style="background-color: burlywood;">
-                <button class="closepopup" onclick="closePopup()">Close</button>
-              </div>
             </div>
-          </form>
-        </div>
-
-
-
+  
+            <div style="width: 100%;
+            display: flex;
+            justify-content: space-around;
+            height: 95px;
+            background-color: #edebeb;
+            margin-left: 10px;
+            align-items: center;">
+              <input type="submit" value="Add Product" style="background-color: #34568B; color: white;">
+              <button class="closepopup" onclick="closePopup()">Close</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
+
+
+
 
   <!-- ################################################################################################################################ -->
 
@@ -326,7 +489,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="productdeleteid" id="productdeleteid" value="{{prod.id}}">
                 <button style="border-radius: 8px;width: 60px;
-              height: 25px;background-color: burlywood;" onclick="deleteproducts()" type="submit">Delete</button>
+              height: 25px;background-color: burlywood;color:black" onclick="deleteproducts()" type="submit">Delete</button>
               </form>
             </div>
 
@@ -357,12 +520,10 @@
 
 
             <img id="productimg" src="{{ prod.image.url }}" width="170" height='170'>
-            <p id="productnames">{{prod.name}}</p>
-            <div style="width: 241px;
-          height: inherit;
-          position: relative;
-          left: 255px;
-          top: 25px;">
+            <p id="productnames" style="margin-bottom:10px">{{prod.name}}</p>
+            <div style="width: 43%;
+            height: inherit;
+            margin: auto;">
               <p id="productdesc" style="font-size: 10px;">{{prod.description}}</p>
             </div>
             <button class="closeviewproduct" onclick="closeviewproducts()">Close</button>
@@ -496,6 +657,14 @@
     }
 
 
+
+    function openAddCategory() {
+      document.getElementById("popup-card").style.display = "block";
+    }
+    function closeAddCategory() {
+      document.getElementById("popup-card").style.display = "none";
+    }
+
   </script>
 
 
@@ -514,23 +683,3 @@
 
 
 
-<!-- <div style="width:25%;height: 450px;border-radius:5px;border: 0.1px solid gray;margin-top:30px">
-    <h2 style="text-align:center;margin-top:10px;color:blue">Add Products</h2>
-    <hr>
-    <div style="width:100%; height: 100px;margin-left:30px">
-      <form action="/" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <div style="width:100%" class="formContainer">
-          <p>Product Name</p>
-          <input type="text" name="name" placeholder="Product Name"><br><br>
-          <p>Product Description</p>
-          <textarea name="description" placeholder="Product Description"></textarea><br><br>
-          <p>Product Image</p>
-          <input type="file" name="image"><br><br>
-          <input type="submit" value="Add Product" style="background-color: burlywood;">
-        </div>
-      </form>
-    </div>
-
-  </div> -->

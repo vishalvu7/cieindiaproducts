@@ -30,15 +30,39 @@ def adminLogin(request):
         return render(request, 'adminlogin.html')
     else:
         if 'admin' in request.session:
-            products = Product.objects.all()
-            root_parents = Menu.objects.filter(parent__isnull=True)
-            root_parents_with_children = []
+            try:
+                products = Product.objects.all()
+                root_parents = Menu.objects.filter(parent__isnull=True)
+                root_parents_with_children = []
+                
+                
+                
+                
+                
+                root_menus = Menu.objects.filter(parent=None)
+                menus = Menu.objects.all().order_by('parent_id')
+                for root_menu in root_menus:
+                    root_menu.children.set(root_menu.children.all())
 
-            for parent in root_parents:
-                children = parent.children.first()
-                root_parents_with_children.append((parent, children))
+                menu_tree = []
+                for root_menu in root_menus:
+                    menu_tree.append(get_menu_tree(root_menu))
+                    
+                    
+                parent = Menu.objects.first()
+                children = parent.children.all()[:1]
+                context = {'parent': parent, 'children': children}
+                
+                
+                
 
-            return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+                for parent in root_parents:
+                    children = parent.children.first()
+                    root_parents_with_children.append((parent, children))
+
+                return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children,"menuss":menus})
+            except:
+                return render(request, 'admindashboard.html')
         return render(request, 'adminlogin.html')
 
 def home(request):
@@ -50,9 +74,12 @@ def home(request):
                 name = request.POST['name']
                 description = request.POST['description']
                 image = request.FILES['image']
+                
+                parent_id = request.POST.get('parent')
+                # parent_other = request.POST.get('parent_other')
             
 
-                product = Product(name=name, description=description, image=image)
+                product = Product(name=name, description=description,category=parent_id, image=image)
                 product.save()
                 products = Product.objects.all()
                 root_parents = Menu.objects.filter(parent__isnull=True)
@@ -69,6 +96,21 @@ def home(request):
         
         else:
             
+            
+            root_menus = Menu.objects.filter(parent=None)
+            menus = Menu.objects.all().order_by('parent_id')
+            for root_menu in root_menus:
+                root_menu.children.set(root_menu.children.all())
+
+            menu_tree = []
+            for root_menu in root_menus:
+                menu_tree.append(get_menu_tree(root_menu))
+                
+                
+            parent = Menu.objects.first()
+            children = parent.children.all()[:1]
+            context = {'parent': parent, 'children': children}
+            
             products = Product.objects.all()
                     
             root_parents = Menu.objects.filter(parent__isnull=True)
@@ -78,7 +120,7 @@ def home(request):
                 children = parent.children.first()
                 root_parents_with_children.append((parent, children))
 
-            return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+            return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
         
     else:
         return render(request, 'adminlogin.html')
@@ -159,7 +201,9 @@ def deleteProduct(request):
             
             try:
                 productid = request.POST['productdeleteid']
-                delPro = Product.objects.get(id=productid)
+                print("Product id printing")
+                print(productid)
+                delPro = Menu.objects.get(id=productid)
                 delPro.delete()
             except:
                 print("Product not found")
@@ -196,22 +240,25 @@ def deleteProduct(request):
     
     
 def userHome(request):
-    products = Product.objects.all()
-    root_menus = Menu.objects.filter(parent=None)
-    menus = Menu.objects.all().order_by('parent_id')
-    for root_menu in root_menus:
-        root_menu.children.set(root_menu.children.all())
-
-    menu_tree = []
-    for root_menu in root_menus:
-        menu_tree.append(get_menu_tree(root_menu))
+    try:
         
-        
-    parent = Menu.objects.first()
-    children = parent.children.all()[:1]
-    context = {'parent': parent, 'children': children}
-    return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+        products = Product.objects.all()
+        root_menus = Menu.objects.filter(parent=None)
+        menus = Menu.objects.all().order_by('parent_id')
+        for root_menu in root_menus:
+            root_menu.children.set(root_menu.children.all())
 
+        menu_tree = []
+        for root_menu in root_menus:
+            menu_tree.append(get_menu_tree(root_menu))
+            
+            
+        parent = Menu.objects.first()
+        children = parent.children.all()[:1]
+        context = {'parent': parent, 'children': children}
+        return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+    except:
+        return render(request, 'userhome.html')
 def userproductonclick(request):
     products = Product.objects.all()
     root_menus = Menu.objects.filter(parent=None)
@@ -260,26 +307,6 @@ def viewAdminProduct(request):
         return render(request, 'adminlogin.html')
 
 
-# def email(request):    
-#     if request.method == 'POST':
-#         recep_email = request.POST.get('email')
-#         name = request.POST.get('name')
-
-#         if recep_email:
-
-
-#             subject = name + "," + 'Thank you for registering to our site'
-#             message = ' it  means a world to us '
-#             email_from = settings.EMAIL_HOST_USER
-#             recipient_list = [recep_email,]   
-#             send_mail( subject, message, email_from, recipient_list ) 
-#             messages.success(request, 'Email Sent Successfully...')  
-#             return redirect('index')
-#         else:
-#             messages.error(request,"Error Occurred")
-#             return render( request,"index.html" )
-
-#     return render(request, 'index.html')
 
 
 
@@ -299,20 +326,21 @@ def sendEmail(request):
             print(type(subject))
             
             result = ""
-
-            for index in subject:
-                result += "- " + "Product Name" + ": " + str(index["name"]) + "\n"
-                result += "- " + "Description" + ": " + str(index["description"]) + "\n"
-                result += "- " + "Quantity" + ": " + str(index["quantity"]) + "\n"
-                
-                result = result + ",    "
-            
+            try:
+                for index in subject:
+                    result += "- " + "Product Name" + ": " + str(index["name"]) + "\n"
+                    result += "- " + "Description" + ": " + str(index["description"]) + "\n"
+                    result += "- " + "Quantity" + ": " + str(index["quantity"]) + "\n"
+                    
+                    result = result + ",    "
+            except:
+                print("empty list")
             print(result)
             print(type(result))
             
             
             subject =  'Product Quotation'
-            message = 'hello, you have products specifications from '+name+'('+email+'contact-'+contact+') ' + result
+            message = 'hello, you have products specifications from '+name+'('+email+', contact-'+contact+') ' + result
             email_from = settings.EMAIL_HOST_USER
             recipient_list = ['vishalvu7@gmail.com']   
             send_mail( subject, message, email_from, recipient_list ) 
@@ -362,7 +390,7 @@ def createProductCategory(request):
         menu = Menu.objects.create(name=name, parent=parent)
         menus = Menu.objects.all().order_by('parent_id')
 
-        return render(request, 'addcategory.html',{"menuss":menus})
+        return redirect("admin")
 
     else:
         root_menus = Menu.objects.filter(parent=None)
@@ -388,3 +416,67 @@ def createProductCategory(request):
 
 
     
+
+def aboutUs(request):
+    try:
+        products = Product.objects.all()
+        root_menus = Menu.objects.filter(parent=None)
+        menus = Menu.objects.all().order_by('parent_id')
+        for root_menu in root_menus:
+            root_menu.children.set(root_menu.children.all())
+
+        menu_tree = []
+        for root_menu in root_menus:
+            menu_tree.append(get_menu_tree(root_menu))
+            
+            
+        parent = Menu.objects.first()
+        children = parent.children.all()[:1]
+        context = {'parent': parent, 'children': children}
+        return render(request, 'aboutus.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+    except:
+        return render(request, 'aboutus.html')
+    
+    
+    
+    
+def products_by_category(request,menu_name):
+    if request.method == 'GET':
+        # menu_name = request.GET.get('catname')
+        print("Product category name")
+        print(menu_name)
+    
+    
+        products = Product.objects.filter(category=menu_name)
+
+
+        try:
+            
+            root_menus = Menu.objects.filter(parent=None)
+            menus = Menu.objects.all().order_by('parent_id')
+            for root_menu in root_menus:
+                root_menu.children.set(root_menu.children.all())
+
+            menu_tree = []
+            for root_menu in root_menus:
+                menu_tree.append(get_menu_tree(root_menu))
+                
+                
+            parent = Menu.objects.first()
+            children = parent.children.all()[:1]
+            context = {'parent': parent, 'children': children}
+            return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+        except:
+             return render(request, 'userhome.html')
+    
+    
+    
+    
+    
+    
+def logOut(request):
+    if request.method == 'POST':
+        del request.session['admin']
+        return redirect('admin')
+    else:
+        pass

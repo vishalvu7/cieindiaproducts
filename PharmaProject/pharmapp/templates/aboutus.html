@@ -1,4 +1,3 @@
-{% extends 'addcategory.html' %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -13,87 +12,15 @@
         * {
             margin: 0px;
             padding: 0px;
+            box-sizing: border-box;
         }
 
-        /* Style for form container */
-        .form-container {
-            width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f0f0f0;
-            box-shadow: 0 0 10px #ccc;
-            position: relative;
-            top: 150px;
-            
+        body {
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* Style for form elements */
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: none;
-            background-color: #f8f8f8;
-            box-shadow: inset 0 0 5px #ddd;
-        }
-
-        button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: #4CAF50;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #3e8e41;
-        }
-
-
-
-
-        #popup-card {
-            display: block;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            width: 400px;
-            max-width: 90%;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-          }
-          
-          .popup-card-show {
-            display: block;
-          }
-          
-
-
-
-
-
-
-
-
-
-
-
+       
+    
 
 
 
@@ -131,7 +58,8 @@
             display: block;
             padding: 0 20px;
             text-decoration: none;
-            font-size:12px;
+            font-size: 12px;
+            background-color: #333;
         }
 
         .menu-bar ul li.dropdown {
@@ -205,7 +133,8 @@
             display: none;
         }
 
-        a,li{
+        a,
+        li {
             font-size: 12px;
             color: white;
         }
@@ -214,6 +143,54 @@
             white-space: nowrap;
 
         }
+
+
+
+        html, body {
+            height: 100%;
+            margin: 0;
+          }
+          
+          .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('media/pharmapp/static/images/aboutusbg.jpg');
+            background-size: cover;
+            background-position: center;
+          }
+          
+          .floating-paragraph {
+            position: absolute;
+            top: 23%;
+            left: 27%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+            font-family: Times New Roman, Times, serif;
+            font-size: 16px;
+            text-align: center;
+            width: 65%;
+            max-width: 704px;
+            height: 250px;
+            line-height: 34px;
+            color: white;
+          }
+
+          .floating-paragraph p{
+            font-family: Times New Roman, Times, serif;
+font-size: 16px;
+text-align: center;
+line-height: 34px;
+color: black;
+          }
+          
+          
+
+
+      
     </style>
 </head>
 
@@ -224,22 +201,22 @@
     <!-- addcategory.html -->
     <div class="menu-bar">
         <ul>
-            <li ><a href="/admin" style="font-size: 18px;">Home</a></li>
+            <li><a href="/" style="font-size: 14px;">Home</a></li>
             <li class="dropdown">
-                <a href="#" style="font-size: 18px;">Products</a>
+                <a href="/" style="font-size: 14px;">Products</a>
                 <ul class="dropdown-content">
                     {% for menu in menu_tree %}
                     <li class="dropdown">
-                        <a href="/menu">{{ menu.name }}</a>
+                        <a href="/">{{ menu.name }}</a>
                         {% if menu.children %}
                         <ul class="dropdown-content">
                             {% for submenu in menu.children %}
                             <li class="dropdown">
-                                <a href="#" style="white-space: nowrap;">{{ submenu.name }}</a>
+                                <a href="/" style="white-space: nowrap;">{{ submenu.name }}</a>
                                 {% if submenu.children %}
                                 <ul class="dropdown-content">
                                     {% for subsubmenu in submenu.children %}
-                                    <li><a href="#">{{ subsubmenu.name }}</a></li>
+                                    <li><a href="/">{{ subsubmenu.name }}</a></li>
                                     <!-- continue nesting as necessary for more levels -->
                                     {% endfor %}
                                 </ul>
@@ -252,63 +229,34 @@
                     {% endfor %}
                 </ul>
             </li>
+            <li><a href="/about" style="font-size: 14px;">About Us</a></li>
+            <!-- <li><a href="/userproducts">Products</a></li> -->
+            <li><a href="#" style="font-size: 14px;">Feedback</a></li>
+            {% comment %} <li><a href="#" style="font-size: 14px;">Contact Us</a></li> {% endcomment %}
+
+          
+
+
+           
         </ul>
     </div>
 
 
 
-    
-    
-    <div class="form-container" id="popup-card">
-        <h2 style="text-align: center;">Create Category</h2>
-        <form id="create-menu-form" method="post" action="/menu">
-            {% csrf_token %}
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name">
-            
-            <label for="parent">Parent:</label>
-            <select name="parent" id="parent">
-                <option value="">Product</option>
-                {% for menu in menuss %}
-                <option value="{{ menu.id }}">
-                    {% if menu.parent %}
-                    {% for i in 1|ljust:menu.depth %}
-                    &mdash;
-                    {% endfor %}
-                    {% endif %}
-                    {{ menu.name }}
-                </option>
-                {% endfor %}
-                <option value="__other__">Other</option>
-            </select>
 
-            <input type="text" name="parent_other" id="parent_other" style="display: none;">
-            
-            <script>
-                var parentSelect = document.getElementById("parent");
-                var parentOtherInput = document.getElementById("parent_other");
-                
-                parentSelect.addEventListener("change", function () {
-                    if (parentSelect.value === "__other__") {
-                        parentSelect.style.display = "none";
-                        parentOtherInput.style.display = "block";
-                    } else {
-                        parentSelect.style.display = "block";
-                        parentOtherInput.style.display = "none";
-                    }
-                });
-            </script>
-            
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    
-    
-    
-    
-    
-    
-    
+
+    <div class="container">
+        <div class="floating-paragraph">
+            <h4 style="text-align:center;color:currentColor">  About Us</h4>
+          <p>We are Exporter of ophthalmic products, Started business in locally & in a small span of time spread our wings PAN India. Now we are exporting our product in 32 different countries. We believe our distribution network is key of success. So, we work with the principal of  “One Country One Distributor”.</p>
+        </div>
+        
+      </div>
+
+
+      
+      
+
 
 
 

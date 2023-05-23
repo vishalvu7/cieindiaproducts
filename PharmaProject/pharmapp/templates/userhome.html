@@ -4,197 +4,195 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Menu</title>
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Menu</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
 
-        h1 {
-          text-align: center;
-        }
-      
-        .productcontainer {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      
-        .row {
-          display: flex;
-          justify-content: space-evenly;
-          width: 100%;
-        }
-      
-      
-      
-        .product {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin: 20px;
-        }
-      
-        .quantity {
-          display: flex;
-          align-items: center;
-          margin-right: 10px;
-        }
-      
-        .formContainer {
-          width: 100%;
-          height: 100px;
-          position: relative;
-          right: 282px;
-        }
-      
-        .formContainer input {
-          height: 30px;
-          width: 250px;
-        }
-      
-        .formContainer textarea {
-          height: 65px;
-          width: 250px;
-        }
-      
-        .closepopup {
-          position: relative;
-          bottom: 140px;
-          left: 300px;
-          width: 80px;
-          height: 26px;
-          background-color: burlywood;
-        }
-      
-      
-      
-      
-      
-        .closeviewproduct {
-          position: relative;
-          bottom: 260px;
-          left: 225px;
-          width: 80px;
-          height: 26px;
-          background-color: burlywood;
-          border: none;
-        }
-      
-      
-      
-      
-      
-        body {
-          font-family: Arial, Helvetica, sans-serif;
-        }
-      
-        * {
-          box-sizing: border-box;
-        }
-      
-        input[type=text],
-        input[type=email],
-        select,
-        textarea {
-          width: 100%;
-          padding: 12px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-sizing: border-box;
-          margin-top: 6px;
-          margin-bottom: 16px;
-          resize: vertical;
-        }
-      
-        input[type=submit] {
-          background-color: #04AA6D;
-          color: white;
-          padding: 12px 20px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-      
-        input[type=submit]:hover {
-          background-color: #45a049;
-        }
-      
-        .container {
-          border-radius: 5px;
-          background-color: #f2f2f2;
-          padding: 20px;
-        }
-      
-        .col img:hover {
-          margin-top: 100px;
-          transform: scale(2.2);
-          z-index: 1;
-          position: relative;
-        }
-      
-        
-      
-      
-      
-        .progress-bar {
-          width: 200px;
-          height: 20px;
-          background-color: #f0f0f0;
-          border-radius: 10px;
-          overflow: hidden;
-          margin: auto;
-          display: none;
-        }
-        
-        .progress {
-          width: 0;
-          height: 100%;
-          background-color: #4caf50;
-          transition: width 0.3s ease-in-out;
-          text-align: center;
-          color: #fff;
-          font-weight: bold;
-          line-height: 20px;
-        }
-      
-      
-        .search-container {
-          display: flex;
-          width: 550px;
-          margin: 0 auto;
-          height: 45px;
-          align-items: center;
-        }
-      
-        #search-input {
-          flex-grow: 1;
-          padding: 10px;
-          border: none;
-          border-radius: 1px 0 0 5px;
-          font-size: 16px;
-          width: 300px;
-          height: 38px;
-          margin-top: 15px;
-        }
-      
-        #search-button {
-          background-color: #007bff;
-          color: #fff;
-          border: none;
-          border-radius:  5px;
-          padding: 10px 15px;
-          cursor: pointer;
-          font-size: 16px;
-          height: 38px;
-          margin-left: 20px;
-        }
+    h1 {
+      text-align: center;
+    }
 
+    .productcontainer {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
+
+
+    .product {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .formContainer {
+      width: 100%;
+      height: 100px;
+      position: relative;
+      right: 282px;
+    }
+
+    .formContainer input {
+      height: 30px;
+      width: 250px;
+    }
+
+    .formContainer textarea {
+      height: 65px;
+      width: 250px;
+    }
+
+    .closepopup {
+      position: relative;
+      bottom: 140px;
+      left: 300px;
+      width: 80px;
+      height: 26px;
+      background-color: burlywood;
+    }
+
+
+
+
+
+    .closeviewproduct {
+      margin-top: 100px;
+      width: 120px;
+      height: 26px;
+      background-color: burlywood;
+      border: none;
+    }
+
+
+
+
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    input[type=text],
+    input[type=email],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+
+    input[type=submit] {
+      background-color: #04AA6D;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      width: 60%;
+      margin: auto;
+    }
+
+    .col img:hover {
+      margin-top: 100px;
+      transform: scale(2.2);
+      z-index: 1;
+      position: relative;
+    }
+
+
+
+
+
+    .progress-bar {
+      width: 200px;
+      height: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: auto;
+      display: none;
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      background-color: #4caf50;
+      transition: width 0.3s ease-in-out;
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+      line-height: 20px;
+    }
+
+
+    .search-container {
+      display: flex;
+      width: 550px;
+      margin: 0 auto;
+      height: 45px;
+      align-items: center;
+    }
+
+    #search-input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 1px 0 0 5px;
+      font-size: 16px;
+      width: 300px;
+      height: 38px;
+      margin-top: 15px;
+    }
+
+    #search-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 16px;
+      height: 38px;
+      margin-left: 20px;
+    }
 
 
 
@@ -207,224 +205,388 @@
 
 
 
-     
 
 
 
 
 
-        .menu-bar ul li.dropdown:hover>.dropdown-content {
-            display: block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            z-index: 1;
-            background-color: #333;
-        }
 
 
-        .menu-bar {
-            background-color: #333;
-            color: white;
-            height: 50px;
-            line-height: 50px;
-        }
+    .menu-bar ul li.dropdown:hover>.dropdown-content {
+      display: block;
+    }
 
-        .menu-bar ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            background-color: #333;
-        }
-
-        .menu-bar ul li {
-            display: inline-block;
-        }
-
-        .menu-bar ul li a {
-            display: block;
-            padding: 0 20px;
-            text-decoration: none;
-            font-size:12px;
-            background-color: #333;
-        }
-
-        .menu-bar ul li.dropdown {
-            position: relative;
-            background-color: #333;
-        }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      background-color: #333;
+    }
 
 
+    .menu-bar {
+      background-color: #333;
+      color: white;
+      height: 50px;
+      line-height: 50px;
+    }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 50px;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            background-color: #333;
-        }
+    .menu-bar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background-color: #333;
+    }
 
-        .dropdown-content ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            background-color: #333;
-        }
+    .menu-bar ul li {
+      display: inline-block;
+    }
 
-        .dropdown-content ul li {
-            padding: 12px 16px;
-        }
+    .menu-bar ul li a {
+      display: block;
+      padding: 0 20px;
+      text-decoration: none;
+      font-size: 12px;
+      background-color: #333;
+    }
 
-        .dropdown-content ul li:hover {
-            background-color: #333;
-        }
-
-        .dropdown-content ul li a {
-            color: white;
-            text-decoration: none;
-        }
+    .menu-bar ul li.dropdown {
+      position: relative;
+      background-color: #333;
+    }
 
 
 
-        .menu-bar ul li.dropdown {
-            position: relative;
-            background-color: #333;
-        }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 50px;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      background-color: #333;
+    }
 
-        .menu-bar ul li.dropdown .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 100%;
-            background-color: #333;
-        }
+    .dropdown-content ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background-color: #333;
+    }
 
+    .dropdown-content ul li {
+      padding: 12px 16px;
+    }
 
+    .dropdown-content ul li:hover {
+      background-color: #333;
+    }
 
-        .menu-bar ul li.dropdown:hover>.dropdown-content>ul>li {
-            display: block;
-        }
-
-        .menu-bar ul li.dropdown .dropdown-content>ul>li {
-            display: none;
-        }
-
-        .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li {
-            display: none;
-        }
-
-        .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li>ul>li {
-            display: none;
-        }
-
-        a,li{
-            font-size: 12px;
-            color: white;
-        }
-
-        .dropdown li{
-            white-space: nowrap;
-
-        }
+    .dropdown-content ul li a {
+      color: white;
+      text-decoration: none;
+    }
 
 
 
+    .menu-bar ul li.dropdown {
+      position: relative;
+      background-color: #333;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      background-color: #333;
+    }
 
 
-        .counter {
-          display: flex;
-          align-items: center;
-        }
-      
-        .counter-button {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 30px;
-          height: 30px;
-          border: none;
-          background-color: #f1f1f1;
-          color: #333;
-          font-size: 20px;
-          cursor: pointer;
-        }
-      
-        .counter-button:hover {
-          background-color: #ddd;
-        }
-      
-        .counter-number {
-          margin: 0 10px;
-          font-size: 18px;
-        }
-    </style>
+
+    .menu-bar ul li.dropdown:hover>.dropdown-content>ul>li {
+      display: block;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li {
+      display: none;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li {
+      display: none;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li>ul>li {
+      display: none;
+    }
+
+    a,
+    li {
+      font-size: 12px;
+      color: white;
+    }
+
+    .dropdown li {
+      white-space: nowrap;
+
+    }
+
+
+
+
+
+    .counter {
+      display: flex;
+      align-items: center;
+    }
+
+    .counter-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: #f1f1f1;
+      color: #333;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .counter-button:hover {
+      background-color: #ddd;
+    }
+
+    .counter-number {
+      margin: 0 10px;
+      font-size: 18px;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .popup-container {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .popup-content {
+      background-color: whitesmoke;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      width: 80%;
+      height: 520px;
+    }
+
+    .popup-title {
+      text-align: center;
+      margin-top: 10px;
+      color: blue;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px auto 0px auto;
+      width: 100%;
+    }
+
+    .form-section {
+      width: 45%;
+      padding: 10px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+      width: 300px;
+      height: 100%;
+    }
+
+    .form-field label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-field input,
+    .form-field textarea {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .form-buttons button {
+      width: 135px;
+      height: 36px;
+      background-color: #34568B;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-button {
+      background-color: burlywood;
+      color: black;
+    }
+
+
+
+    .popup-title h2 {
+      font-family: monospace;
+      color: black;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    .card {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      background-color: #fff;
+      padding: 20px;
+    }
+
+    .card-body {
+      margin-bottom: 10px;
+    }
+
+    .form-field {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-field input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+
+
+    .form-field table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .form-field table td,
+    .form-field table th {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .form-field table th {
+      font-weight: bold;
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 
 <body>
 
 
 
-    <!-- addcategory.html -->
-    <div class="menu-bar">
-        <ul>
-            <li ><a href="/" style="font-size: 14px;">Home</a></li>
-            <li class="dropdown">
-                <a href="/" style="font-size: 14px;">Products</a>
+  <!-- addcategory.html -->
+  <div class="menu-bar">
+    <ul>
+      <li><a href="/" style="font-size: 14px;">Home</a></li>
+      <li class="dropdown">
+        <a href="/" style="font-size: 14px;">Products</a>
+        <ul class="dropdown-content">
+          {% for menu in menu_tree %}
+          <li class="dropdown">
+            
+            <a  href="{% url 'bycategory' menu.name  %}">{{ menu.name }}</a>
+            {% if menu.children %}
+            <ul class="dropdown-content">
+              {% for submenu in menu.children %}
+              <li class="dropdown">
+                <a href="/" style="white-space: nowrap;">{{ submenu.name }}</a>
+                {% if submenu.children %}
                 <ul class="dropdown-content">
-                    {% for menu in menu_tree %}
-                    <li class="dropdown">
-                        <a href="/">{{ menu.name }}</a>
-                        {% if menu.children %}
-                        <ul class="dropdown-content">
-                            {% for submenu in menu.children %}
-                            <li class="dropdown">
-                                <a href="/" style="white-space: nowrap;">{{ submenu.name }}</a>
-                                {% if submenu.children %}
-                                <ul class="dropdown-content">
-                                    {% for subsubmenu in submenu.children %}
-                                    <li><a href="/">{{ subsubmenu.name }}</a></li>
-                                    <!-- continue nesting as necessary for more levels -->
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
+                  {% for subsubmenu in submenu.children %}
+                  <li><a href="/">{{ subsubmenu.name }}</a></li>
+                  <!-- continue nesting as necessary for more levels -->
+                  {% endfor %}
                 </ul>
-            </li>
-            <li><a href="#">About Us</a></li>
-            <!-- <li><a href="/userproducts">Products</a></li> -->
-            <li><a href="#">Feedback</a></li>
-            <li><a href="#">Contact Us</a></li>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      <li><a href="/about" style="font-size: 14px;">About Us</a></li>
+      <!-- <li><a href="/userproducts">Products</a></li> -->
+      <li><a href="#" style="font-size: 14px;">Feedback</a></li>
 
-            <li><div class="search-container" >
+      <li>
+        <div class="search-container">
 
-              <input type="text" id="search-input" placeholder="Search..." oninput="searchProducts()">
-              <button id="search-button" >Search</button>
-            </div></li>
-        
-        
-            <button id="getquoteButton" style="width: 151px;
+          <input type="text" id="search-input" placeholder="Search..." oninput="searchProducts()">
+          <button id="search-button">Search</button>
+        </div>
+      </li>
+
+
+      <button id="getquoteButton" style="width: 151px;
             height: 36px;
             background-color: burlywood;
             border: none;
             border-radius: 12px;
-            margin-right: 25px;
+            margin-right: 20px;
             margin-top: 15px;
             position: absolute;
             right: 0px;
             top: -9px;" onclick="opencontactpopup()">Get
-              Quotation</button>
-        </ul>
-    </div>
+        Quotation</button>
+    </ul>
+  </div>
 
 
 
@@ -432,7 +594,7 @@
 
 
 
-    
+
   <div style="width: 100%;
   margin: auto;display:flex;justify-content:right;position: fixed;
  ">
@@ -445,7 +607,7 @@
   </div>
 
 
- 
+
 
 
   <div style="display: flex;
@@ -457,12 +619,13 @@
     z-index: 10;
     position: absolute;
     left: 455px;color: green;">
-        {% for message in messages %}
-        <li style="color:green;font-size:16px" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
+      {% for message in messages %}
+      <li style="color:green;font-size:16px" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+      </li>
+      {% endfor %}
     </ul>
     {% endif %}
-    
+
 
     <div style="width:100%;height:inherit;padding: 40px;">
 
@@ -476,7 +639,7 @@
           <div style="width:202px; height:inherit;">
 
             <div style="width:100%;display:flex;justify-content:space-evenly;overflow:hidden;">
-              
+
 
               <p style="font-size:15px">{{prod.name}}</p>
             </div>
@@ -486,17 +649,21 @@
               min="0" value="0" style="width: 80px;
               height: 25px;
           "> -->
-          <div style="width: 100%;display:flex;justify-content:space-evenly;align-items:center;">
-            <div class="counter" style="border: 1px solid green;">
-              <button class="counter-button" id="decrement" onclick="handleQuantityChange(event, this, '{{prod.id}}', '{{prod.name}}', '{{prod.description}}', -1)" style="background-color: olivedrab;height: 25px;">-</button>
-              <span class="counter-number">0</span>
-              <button class="counter-button" id="increment" onclick="handleQuantityChange(event, this, '{{prod.id}}', '{{prod.name}}', '{{prod.description}}', 1)" style="background-color: olivedrab;height: 25px;">+</button>
-            </div>
-  
+            <div style="width: 100%;display:flex;justify-content:space-evenly;align-items:center;">
+              <div class="counter" style="border: 1px solid green;">
+                <button class="counter-button" id="decrement"
+                  onclick="handleQuantityChange(event, this, '{{prod.id}}', '{{prod.name}}', '{{prod.description}}', -1)"
+                  style="background-color: olivedrab;height: 25px;">-</button>
+                <span class="counter-number">0</span>
+                <button class="counter-button" id="increment"
+                  onclick="handleQuantityChange(event, this, '{{prod.id}}', '{{prod.name}}', '{{prod.description}}', 1)"
+                  style="background-color: olivedrab;height: 25px;">+</button>
+              </div>
+
               <button style="width: 100px;
               height: 25px;background-color: burlywood;border:none"
                 onclick="viewproducts(`{{ prod.name }}`, `{{ prod.description }}`, `{{ prod.image.url }}`)">Details</button>
-          </div>
+            </div>
 
 
 
@@ -514,9 +681,9 @@
       <!-- ############################3 view Products ######################### -->
 
       <div id="viewproductspopup"
-        style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        style="display: none; position: fixed; z-index: 1;  left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
         <div
-          style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 400px;">
+          style="background-color: floralwhite; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 450px;">
           <div style="text-align: center;">
 
             <h2 style="text-align:center;margin-top:10px;color:blue"> Products Details</h2>
@@ -524,74 +691,80 @@
 
 
             <img id="productimg" src="{{ prod.image.url }}" width="170" height='170'>
-            <p id="productnames">{{prod.name}}</p>
-            <div style="width: 241px;
-          height: inherit;
-          position: relative;
-          left: 255px;
-          top: 25px;">
+            <p id="productnames" style="margin-bottom:10px;">{{prod.name}}</p>
+            <div style="width: 43%;
+            height: 21px;
+            margin: auto;">
               <p id="productdesc" style="font-size: 10px;">{{prod.description}}</p>
+              <button class="closeviewproduct" onclick="closeviewproducts()">Close</button>
             </div>
 
 
-            <button class="closeviewproduct" onclick="closeviewproducts()">Close</button>
           </div>
         </div>
       </div>
+
+
 
 
       <!-- ############################3 Email Products(Contact popup) ######################### -->
 
-      <div id="opencontactpopup"
-        style="display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-        <div
-          style="background-color: whitesmoke; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 400px;;overflow:scroll">
-          <div style="text-align: center">
-
-            <h2 style="text-align:center;margin-top:10px;color:blue"> Products Details</h2>
+      <div id="opencontactpopup" class="popup-container">
+        <div class="popup-content">
+          <div class="popup-title">
+            <h2>Products Enquiry</h2>
             <hr>
+          </div>
 
-            <h3>Contact Form</h3>
+          <div class="form-container">
+            <form action="/mail" method="post" style="width: 100%;">
+              {% csrf_token %}
 
-            <div class="container">
-              <form action="/mail" method="post">
-                {% csrf_token %}
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Your name.." required>
-
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Your email" required>
-
-                <label for="contact">Contact</label>
-                <input type="text" id="contact" name="contact" placeholder="Your contact.." required>
+              <div style="display: flex;
+              width: 100%;
+              justify-content: space-around;">
 
 
-                <label for="subject">Quotation</label>
-                <textarea id="sub" name="subject" placeholder="Write something..." style="height:200px"
-                  required></textarea>
+                <div class="card" style="width: 340px;">
+                  <div class="card-body">
+                    <div class="form-field">
+                      <label for="name">Name:</label>
+                      <input type="text" id="name" name="name" placeholder="Your name.." required>
+                    </div>
 
-                <button type="submit" id="mailButton" style="width: 151px;
-                height: 36px;
-                background-color: burlywood;
-                border: none;
-                border-radius: 12px;" onclick="closecontactpopup()">Mail</button>
-              </form>
-              <button style="width: 151px;
-              height: 36px;
-              background-color: burlywood;
-              border: none;
-              border-radius: 12px;color:white;margin-top:15px" class="closecontactpopup"
-                onclick="closecontactpopup()">Close</button>
-            </div>
+                    <div class="form-field">
+                      <label for="email">Email:</label>
+                      <input type="email" id="email" name="email" placeholder="Your email" required>
+                    </div>
 
-
+                    <div class="form-field">
+                      <label for="contact">Contact:</label>
+                      <input type="text" id="contact" name="contact" placeholder="Your contact.." required>
+                    </div>
+                  </div>
+                  <div class="form-buttons">
+                    <button type="submit" id="mailButton">Mail</button>
+                    <button class="close-button" onclick="closecontactpopup()">Close</button>
+                  </div>
+                </div>
 
 
 
+                <div class="card" style="width: 55%;">
+                  <div class="form-field">
+                    <label for="subject">Message:</label>
+                    <table id="sub" required></table>
+
+                    <textarea id="subject" name="subject" style="height:200px" hidden required></textarea>
+                  </div>
+
+
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-
 
       {% endfor %}
 
@@ -605,34 +778,97 @@
   <div class="progress-bar">
     <div id="progress-bar" class="progress"></div>
   </div>
-  
+
 
 
   <div id="no-products-message" style="display: none; text-align: center; font-weight: bold; margin-top: 20px;">
     No Products Found!!!
   </div>
   <!-- startProgressBar(10000); -->
+
+  
   <script>
+
+
+
+
+
+    function populateTable() {
+      var table = document.getElementById('sub');
+
+      var storedList = JSON.parse(localStorage.getItem("objectList")) || [];
+
+      // Create table body if it doesn't exist
+      var tableBody = table.querySelector('tbody');
+      if (!tableBody) {
+        tableBody = document.createElement('tbody');
+        table.appendChild(tableBody);
+      }
+
+      // Clear existing table body content
+      tableBody.innerHTML = '';
+
+      // Create table header if it doesn't exist
+      var tableHeader = table.querySelector('thead');
+      if (!tableHeader) {
+        tableHeader = document.createElement('thead');
+        table.appendChild(tableHeader);
+      }
+
+      // Clear existing table header content
+      tableHeader.innerHTML = '';
+
+      // Create table header row
+      var headerRow = tableHeader.insertRow();
+
+      // Populate table header
+      var headers = ['Serial Number', 'Product Name', 'Quantity'];
+
+      headers.forEach(function (headerText) {
+        var th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+      });
+
+      // Populate table body with dummy data
+      storedList.forEach(function (data, index) {
+        var row = tableBody.insertRow();
+        var cell1 = row.insertCell();
+        var cell2 = row.insertCell();
+        var cell3 = row.insertCell();
+
+        cell1.textContent = index + 1; // Serial number starts from 1
+        cell2.textContent = data.name;
+        cell3.textContent = data.quantity;
+      });
+    }
+
+
+
+
+
+
+
 
 
     function searchProducts() {
       const searchInput = document.getElementById('search-input');
       const productItems = document.getElementsByClassName('product-item');
       let foundProducts = false;
-    
+
       for (let i = 0; i < productItems.length; i++) {
         const productName = productItems[i].getElementsByTagName('p')[0].textContent;
         const itemVisible = productName.toLowerCase().includes(searchInput.value.toLowerCase());
-    
+
         productItems[i].style.display = itemVisible ? 'block' : 'none';
-    
+
         if (itemVisible) {
           foundProducts = true;
         }
       }
-    
+
       const messageElement = document.getElementById('no-products-message');
-    
+
       if (foundProducts) {
         messageElement.style.display = 'none';
       } else {
@@ -644,19 +880,19 @@
 
     function handleQuantityChange(event, button, productId, name, description, change) {
       event.preventDefault(); // Prevent the default form submission behavior
-      
+
       // Find the associated counter number element
       var counterNumber = button.parentNode.querySelector('.counter-number');
-      
+
       // Get the current quantity value
       var quantity = parseInt(counterNumber.innerText);
-      
+
       // Update the quantity based on the change
       quantity += change;
-      
+
       // Update the counter number element with the new quantity
       counterNumber.innerText = quantity;
-      
+
 
 
 
@@ -685,7 +921,9 @@
       localStorage.setItem("objectList", JSON.stringify(storedList));
 
       console.log(storedList);
-      
+
+      populateTable();
+
       // Your additional code here...
     }
 
@@ -715,7 +953,7 @@
     function opencontactpopup() {
       var items = localStorage.getItem("objectList");
       var storedValue = localStorage.getItem("description");
-      var textarea = document.getElementById("sub");
+      var textarea = document.getElementById("subject");
       textarea.value = items;
       document.getElementById("opencontactpopup").style.display = "block";
 
@@ -735,27 +973,27 @@
       var progressBar = document.getElementById("progress-bar");
       var progress = 0;
       var interval = 50; // Update interval in milliseconds
-    
-      var timer = setInterval(function() {
+
+      var timer = setInterval(function () {
         progress += interval / duration * 100; // Calculate the progress percentage
-    
+
         // Limit the progress to 100%
         if (progress >= 100) {
           progress = 100;
           clearInterval(timer); // Stop the timer
           progressBarContainer.style.display = "none"; // Set display to "none" for the container
         }
-    
+
         // Update the progress bar
         progressBar.style.width = progress + "%";
-    
+
         // Display the progress text
         progressBar.innerText = Math.round(progress) + "%";
-    
+
       }, interval);
     }
-    
-       
+
+
 
     function viewproducts(name, desc, url) {
 

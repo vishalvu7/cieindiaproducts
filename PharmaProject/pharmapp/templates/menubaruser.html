@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+   
+
+
+
+
+    .menu-bar ul li.dropdown:hover>.dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        background-color: #333;
+    }
+
+
+    .menu-bar {
+        background-color: #333;
+        color: white;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .menu-bar ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+    }
+
+    .menu-bar ul li {
+        display: inline-block;
+    }
+
+    .menu-bar ul li a {
+        display: block;
+        padding: 0 20px;
+        text-decoration: none;
+        font-size: 12px;
+        background-color: #333;
+    }
+
+    .menu-bar ul li.dropdown {
+        position: relative;
+        background-color: #333;
+    }
+
+
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 50px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        background-color: #333;
+    }
+
+    .dropdown-content ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+    }
+
+    .dropdown-content ul li {
+        padding: 12px 16px;
+    }
+
+    .dropdown-content ul li:hover {
+        background-color: #333;
+    }
+
+    .dropdown-content ul li a {
+        color: white;
+        text-decoration: none;
+    }
+
+
+
+    .menu-bar ul li.dropdown {
+        position: relative;
+        background-color: #333;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        background-color: #333;
+    }
+
+
+
+    .menu-bar ul li.dropdown:hover>.dropdown-content>ul>li {
+        display: block;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li {
+        display: none;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li {
+        display: none;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li>ul>li {
+        display: none;
+    }
+
+    a,
+    li {
+        font-size: 12px;
+        color: white;
+    }
+
+    .dropdown li {
+        white-space: nowrap;
+
+    }
+
+
+
+</style>
+<body>
+
+
+     <!-- addcategory.html -->
+     <div class="menu-bar">
+        <ul>
+            <li><a href="/" style="font-size: 14px;">Home</a></li>
+            <li class="dropdown">
+                <a href="/" style="font-size: 14px;">Products</a>
+                <ul class="dropdown-content">
+                    {% for menu in menu_tree %}
+                    <li class="dropdown">
+                        <a href="/">{{ menu.name }}</a>
+                        {% if menu.children %}
+                        <ul class="dropdown-content">
+                            {% for submenu in menu.children %}
+                            <li class="dropdown">
+                                <a href="/" style="white-space: nowrap;">{{ submenu.name }}</a>
+                                {% if submenu.children %}
+                                <ul class="dropdown-content">
+                                    {% for subsubmenu in submenu.children %}
+                                    <li><a href="/">{{ subsubmenu.name }}</a></li>
+                                    <!-- continue nesting as necessary for more levels -->
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li><a href="/about" style="font-size: 14px;">About Us</a></li>
+            <!-- <li><a href="/userproducts">Products</a></li> -->
+            <li><a href="#" style="font-size: 14px;">Feedback</a></li>
+            <li><a href="#" style="font-size: 14px;">Contact Us</a></li>
+
+          
+
+
+           
+        </ul>
+    </div>
+
+    
+</body>
+</html>

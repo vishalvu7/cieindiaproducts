@@ -80,7 +80,8 @@
         margin-left: 10px;
         width: 110px;
         height: 32px;
-        background-color: burlywood;
+        background-color: #34568B;
+        color: white;
 
     }
 
@@ -160,7 +161,7 @@
 
     .productdetails a {
         display: inline-block;
-        padding: 6px 10px;
+        padding: 7px 18px;
         background-color: #007bff;
         color: #fff;
         text-decoration: none;
@@ -178,12 +179,13 @@
     <!-- #######################  pop up box ################################# -->
 
     <div class="menubuttons">
-        <button onclick="openPopup()">Add Products</button>
-        <button onclick=""><a style="text-decoration: none;" href="{% url 'admin' %}">View Product</a>
+        {% comment %} <button onclick="openPopup()">Add Products</button> {% endcomment %}
+        <button onclick=""><a style="text-decoration: none;color:white" href="{% url 'admin' %}">View Product</a>
         </button>
-        <button onclick=""><a style="text-decoration: none;" href="{% url 'menu' %}">Add Category</a>
-        </button>
-        <button onclick=""><a style="text-decoration: none;" href="{% url 'viewadminproducts' %}">View Category</a>
+        {% comment %} <button onclick=""><a style="text-decoration: none;" href="{% url 'menu' %}">Add Category</a>
+        </button> {% endcomment %}
+        <button onclick=""><a style="text-decoration: none;color:white" href="{% url 'viewadminproducts' %}">View
+                Category</a>
         </button>
 
         <div style="width: 78%;
@@ -327,6 +329,7 @@
                                 onclick="editproducts(`{{ prod.name }}`, `{{ prod.description }}`, `{{ prod.image.url }}`, `{{prod.id}}`)">Edit</button>
 
 
+
                             <form action="/delete" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="productdeleteid" id="productdeleteid" value="{{prod.id}}">
@@ -407,8 +410,23 @@
                 <td>{{ parent.name }}</td>
                 <td>{% if children %}{{ children.name }}{% else %}No Data{% endif %}</td>
                 <td>
-                    <a href="{% url 'admin' %}">Delete</a>
-                    <a href="{% url 'admin' %}">View</a>
+                    <div style="display: flex;
+                    justify-content: center;
+                    align-items: center;">
+                        <form action="{% url 'delete' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="productdeleteid" value="{{ parent.id }}">
+                            <input type="hidden" name="product_id" value="{% if children %}{{ children.id }}{% endif %}">
+                            <button type="submit" style="display: inline-block;
+                            padding: 6px 10px;
+                            background-color: #007bff;
+                            color: #fff;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            transition: background-color 0.3s ease; margin-right:10px">Delete</button>
+                        </form>
+                        <a href="{% url 'admin' %}" >View</a>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
