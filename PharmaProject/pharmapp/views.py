@@ -335,8 +335,7 @@ def sendEmail(request):
                     result = result + ",    "
             except:
                 print("empty list")
-            print(result)
-            print(type(result))
+         
             
             
             subject =  'Product Quotation'
@@ -443,8 +442,6 @@ def aboutUs(request):
 def products_by_category(request,menu_name):
     if request.method == 'GET':
         # menu_name = request.GET.get('catname')
-        print("Product category name")
-        print(menu_name)
     
     
         products = Product.objects.filter(category=menu_name)
@@ -480,3 +477,55 @@ def logOut(request):
         return redirect('admin')
     else:
         pass
+    
+    
+    
+def feedBack(request):
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            message = request.POST.get('message')
+            
+            subject =  'Product Quotation'
+            message = 'hello, you have feedback from '+name+'('+email+') ' + '\n' + message
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email]   
+            send_mail( subject, message, email_from, recipient_list ) 
+            messages.error(request, 'Email Sent Successfully...')  
+            
+            return render(request, 'userfeedback.html')
+            
+        except:
+            messages.error(request, 'Unable to send feedback...')  
+            
+            
+            return render(request, 'userfeedback.html')
+    else:
+        
+        try:
+            
+            products = Product.objects.all()
+            root_menus = Menu.objects.filter(parent=None)
+            menus = Menu.objects.all().order_by('parent_id')
+            for root_menu in root_menus:
+                root_menu.children.set(root_menu.children.all())
+
+            menu_tree = []
+            for root_menu in root_menus:
+                menu_tree.append(get_menu_tree(root_menu))
+                
+                
+            parent = Menu.objects.first()
+            children = parent.children.all()[:1]
+            context = {'parent': parent, 'children': children}
+            return render(request, 'userfeedback.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+        except:
+            return render(request, 'userfeedback.html')
+        
+        
+        
+        
+        
+def ourPresence(request):
+    return render(request, 'ourpresence.html')

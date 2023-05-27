@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Page</title>
+  <style>
+
+    
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 9999;
+        }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 10px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      padding: 5px 20px 20px 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-family: monospace;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 96%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    textarea {
+      height: 110px;
+    }
+
+    input[type="submit"] {
+      background-color: #34568B;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .search-container {
+      display: flex;
+      width: 550px;
+      margin: 0 auto;
+      height: 45px;
+      align-items: center;
+    }
+
+    #search-input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 300px;
+      height: 15px;
+      margin-top: 15px;
+    }
+
+    #search-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 16px;
+      height: 35px;
+      margin-left: 20px;
+      margin-top: 14px;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .menu-bar ul li.dropdown:hover>.dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      background-color: #333;
+    }
+
+
+    .menu-bar {
+      background-color: #333;
+      color: white;
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .menu-bar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background-color: #333;
+    }
+
+    .menu-bar ul li {
+      display: inline-block;
+    }
+
+    .menu-bar ul li a {
+      display: block;
+      padding: 0 20px;
+      text-decoration: none;
+      font-size: 12px;
+      background-color: #333;
+    }
+
+    .menu-bar ul li.dropdown {
+      position: relative;
+      background-color: #333;
+    }
+
+
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 50px;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      background-color: #333;
+    }
+
+    .dropdown-content ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background-color: #333;
+    }
+
+    .dropdown-content ul li {
+      padding: 12px 16px;
+    }
+
+    .dropdown-content ul li:hover {
+      background-color: #333;
+    }
+
+    .dropdown-content ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+
+
+    .menu-bar ul li.dropdown {
+      position: relative;
+      background-color: #333;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      background-color: #333;
+    }
+
+
+
+    .menu-bar ul li.dropdown:hover>.dropdown-content>ul>li {
+      display: block;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li {
+      display: none;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li {
+      display: none;
+    }
+
+    .menu-bar ul li.dropdown .dropdown-content>ul>li>ul>li>ul>li {
+      display: none;
+    }
+
+    a,
+    li {
+      font-size: 12px;
+      color: white;
+    }
+
+    .dropdown li {
+      white-space: nowrap;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    .popup-container {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .popup-content {
+      background-color: whitesmoke;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      width: 80%;
+      height: 520px;
+    }
+
+    .popup-title {
+      text-align: center;
+      margin-top: 10px;
+      color: blue;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px auto 0px auto;
+      width: 100%;
+    }
+
+    .form-section {
+      width: 45%;
+      padding: 10px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+      width: 300px;
+      height: 100%;
+    }
+
+    .form-field label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-field input,
+    .form-field textarea {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .form-buttons button {
+      width: 135px;
+      height: 36px;
+      background-color: #34568B;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-button {
+      background-color: burlywood;
+      color: black;
+    }
+
+
+
+    .popup-title h2 {
+      font-family: monospace;
+      color: black;
+    }
+
+
+
+
+
+    
+  </style>
+</head>
+
+<body>
+
+
+  <div class="menu-bar">
+    <ul>
+      <li><a href="/" style="font-size: 14px;">Home</a></li>
+      <li class="dropdown">
+        <a href="/" style="font-size: 14px;">Products</a>
+        <ul class="dropdown-content">
+          {% for menu in menu_tree %}
+          <li class="dropdown">
+
+            <a href="{% url 'bycategory' menu.name  %}">{{ menu.name }}</a>
+            {% if menu.children %}
+            <ul class="dropdown-content">
+              {% for submenu in menu.children %}
+              <li class="dropdown">
+                <a href="/" style="white-space: nowrap;">{{ submenu.name }}</a>
+                {% if submenu.children %}
+                <ul class="dropdown-content">
+                  {% for subsubmenu in submenu.children %}
+                  <li><a href="/">{{ subsubmenu.name }}</a></li>
+                  <!-- continue nesting as necessary for more levels -->
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      <li><a href="/about" style="font-size: 14px;">About Us</a></li>
+      <!-- <li><a href="/userproducts">Products</a></li> -->
+      <li><a href="/feedback" style="font-size: 14px;">Feedback</a></li>
+
+      <li>
+        <div class="search-container">
+
+          <input type="text" id="search-input" placeholder="Search..." oninput="searchProducts()">
+          <button id="search-button">Search</button>
+        </div>
+      </li>
+
+
+      <button id="getquoteButton" style="width: 151px;
+                height: 36px;
+                background-color: burlywood;
+                border: none;
+                border-radius: 12px;
+                margin-right: 20px;
+                margin-top: 15px;
+                position: absolute;
+                right: 0px;
+                top: -9px;" onclick="opencontactpopup()">Get
+        Quotation</button>
+    </ul>
+  </div>
+
+  <div style="width: 100%;
+      margin: auto;display:flex;justify-content:right;position: fixed;
+     ">
+    <button id="getquoteButton" style="width: 151px;
+       height: 36px;
+       background-color: burlywood;
+       border: none;
+       border-radius: 12px;margin-right:25px;margin-top:15px;position: fixed;display:none"
+      onclick="opencontactpopup()">Get
+      Quotation</button>
+  </div>
+
+
+
+  <div class="container">
+
+    <div class="card">
+      {% if messages %}
+    <ul class="messages" style="    background-color: white;
+    width: 320px;
+    z-index: 10;
+    position: absolute;
+    left: 455px;color: green;">
+      {% for message in messages %}
+      <li style="color:green;font-size:16px" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+      <h2>Feedback</h2>
+      <form action="/feedback" method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Your name.." required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Your email.." required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" placeholder="Your message.." required></textarea>
+
+        <input type="submit" value="Submit" id="ajaxButton">
+      </form>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <div style="width:100%;height:inherit;padding: 40px;">
+
+    {% for prod in Product %}
+
+
+
+
+    <!-- ############################3 view Products ######################### -->
+
+    <div id="viewproductspopup"
+      style="display: none; position: fixed; z-index: 1;  left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+      <div
+        style="background-color: floralwhite; margin: auto; padding: 20px; border: 1px solid black; width: 50%;height: 450px;">
+        <div style="text-align: center;">
+
+          <h2 style="text-align:center;margin-top:10px;color:blue"> Products Details</h2>
+          <hr>
+
+
+          <img id="productimg" src="{{ prod.image.url }}" width="170" height='170'>
+          <p id="productnames" style="margin-bottom:10px;">{{prod.name}}</p>
+          <div style="width: 43%;
+          height: 21px;
+          margin: auto;">
+            <p id="productdesc" style="font-size: 10px;">{{prod.description}}</p>
+            <button class="closeviewproduct" onclick="closeviewproducts()">Close</button>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- ############################3 Email Products(Contact popup) ######################### -->
+
+    <div id="opencontactpopup" class="popup-container">
+      <div class="popup-content">
+        <div class="popup-title">
+          <h2>Products Enquiry</h2>
+          <hr>
+        </div>
+
+        <div class="form-container">
+          <form action="/mail" method="post" style="width: 100%;">
+            {% csrf_token %}
+
+            <div style="display: flex;
+            width: 100%;
+            justify-content: space-around;">
+
+
+              <div class="card" style="width: 340px;">
+                <div class="card-body">
+                  <div class="form-field">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Your name.." required>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Your email" required>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="contact">Contact:</label>
+                    <input type="text" id="contact" name="contact" placeholder="Your contact.." required>
+                  </div>
+                </div>
+                <div class="form-buttons">
+                  <button type="submit" id="mailButton">Mail</button>
+                  <button class="close-button" onclick="closecontactpopup()">Close</button>
+                </div>
+              </div>
+
+
+
+              <div class="card" style="width: 55%;">
+                <div class="form-field">
+                  <label for="subject">Message:</label>
+                  <table id="sub" required></table>
+
+                  <textarea id="subject" name="subject" style="height:200px" hidden required></textarea>
+                </div>
+
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+
+
+  </div>
+
+
+
+
+
+
+    <div class="popup" id="popupSuccess">
+        <h2>Success</h2>
+        <p>The AJAX request was successful.</p>
+    </div>
+
+    <div class="popup" id="popupFailure">
+        <h2>Failure</h2>
+        <p>The AJAX request failed.</p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+
+  <script>
+
+    $(document).ready(function() {
+      // AJAX request on button click
+      $("#ajaxButton").click(function() {
+          var name = $("#name").val();
+          var email = $("#email").val();
+          var message = $("#message").val();
+          var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+          
+          $.ajax({
+              url: "/feedback",
+              data: {
+                  name: name,
+                  email: email,
+                  message: message,
+                  csrfmiddlewaretoken: csrfToken
+              },
+              type: "POST",
+              dataType: "json",
+              success: function(response) {
+                  // Display success popup
+                  $("#popupSuccess").fadeIn();
+                  setTimeout(function() {
+                      $("#popupSuccess").fadeOut();
+                  }, 3000);
+              },
+              error: function(xhr, status, error) {
+                  // Display failure popup
+                  $("#popupFailure").fadeIn();
+                  setTimeout(function() {
+                      $("#popupFailure").fadeOut();
+                  }, 3000);
+              }
+          });
+      });
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function viewproducts(name, desc, url) {
+
+      document.getElementById("viewproductspopup").style.display = "block";
+
+      var paragraph = document.getElementById("productnames");
+      paragraph.textContent = name;
+
+      var paragraph = document.getElementById("productdesc");
+      paragraph.textContent = desc;
+
+      var image = document.getElementById("productimg");
+      image.src = url;
+
+
+    }
+    function closeviewproducts() {
+      document.getElementById("viewproductspopup").style.display = "none";
+    }
+
+
+    function opencontactpopup() {
+    var items = localStorage.getItem("objectList");
+    var storedValue = localStorage.getItem("description");
+    var textarea = document.getElementById("subject");
+    textarea.value = items;
+    document.getElementById("opencontactpopup").style.display = "block";
+
+
+  }
+
+  function closecontactpopup() {
+
+    localStorage.removeItem('objectList');
+    document.getElementById("opencontactpopup").style.display = "none";
+
+  }
+  </script>
+
+</body>
+</html>

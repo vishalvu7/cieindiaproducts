@@ -15,6 +15,9 @@ urlpatterns = [
     # path('bycategory',views.products_by_category, name='bycategory'),
     path('bycategory/<str:menu_name>/', views.products_by_category, name='bycategory'),
     path('logout',views.logOut, name='logout'),
+    path('feedback',views.feedBack, name='feedback'),
+    path('map',views.ourPresence, name='map'),
+    
     
     
     
