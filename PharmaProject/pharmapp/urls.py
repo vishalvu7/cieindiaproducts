@@ -17,7 +17,8 @@ urlpatterns = [
     path('logout',views.logOut, name='logout'),
     path('feedback',views.feedBack, name='feedback'),
     path('map',views.ourPresence, name='map'),
-    
+    path('delete_category/<int:category_id>/', views.delete_category, name='delete_category'),
+    path('update_category/<int:category_id>/<int:children_id>/', views.update_category, name='update_category'),
     
     
     

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Category</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+        }
+        
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        
+        .form-group .actions {
+            margin-top: 10px;
+        }
+        
+        .form-group .actions button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .form-group .actions button[type="submit"] {
+            background-color: #28a745;
+        }
+        
+        .form-group .actions button[type="button"] {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Category</h2>
+        <form action="{% url 'update_category' category.id subcategory.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Category Name:</label>
+                <input type="text" id="name" name="name" value="{{ category.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="subcategory">Category Name:</label>
+                <input type="text" id="subcategory" name="subcategory" value="{{ subcategory.name }}" required>
+            </div>
+
+            <div class="form-group actions">
+                <button type="submit">Save</button>
+                <button type="button" onclick="window.location.href='{% url 'admin' %}'">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

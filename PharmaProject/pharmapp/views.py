@@ -1,14 +1,14 @@
 import json
 from django.http import JsonResponse
 from django.http import HttpResponse
-from django.shortcuts import render , redirect
+from django.shortcuts import get_object_or_404, render , redirect
 
 from pharmapp.models import Product
 
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from .models import Menu
+from .models import Category, SubCategory
 
 # Create your views here.
 
@@ -31,36 +31,12 @@ def adminLogin(request):
     else:
         if 'admin' in request.session:
             try:
+                categories = Category.objects.all()
+                subcategories = SubCategory.objects.all()
+               
+
                 products = Product.objects.all()
-                root_parents = Menu.objects.filter(parent__isnull=True)
-                root_parents_with_children = []
-                
-                
-                
-                
-                
-                root_menus = Menu.objects.filter(parent=None)
-                menus = Menu.objects.all().order_by('parent_id')
-                for root_menu in root_menus:
-                    root_menu.children.set(root_menu.children.all())
-
-                menu_tree = []
-                for root_menu in root_menus:
-                    menu_tree.append(get_menu_tree(root_menu))
-                    
-                    
-                parent = Menu.objects.first()
-                children = parent.children.all()[:1]
-                context = {'parent': parent, 'children': children}
-                
-                
-                
-
-                for parent in root_parents:
-                    children = parent.children.first()
-                    root_parents_with_children.append((parent, children))
-
-                return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children,"menuss":menus})
+                return render(request, 'admindashboard.html', {'Product':products,'categories': categories, 'subcategories': subcategories})
             except:
                 return render(request, 'admindashboard.html')
         return render(request, 'adminlogin.html')
@@ -74,22 +50,17 @@ def home(request):
                 name = request.POST['name']
                 description = request.POST['description']
                 image = request.FILES['image']
-                
-                parent_id = request.POST.get('parent')
-                # parent_other = request.POST.get('parent_other')
-            
+                parent_name = request.POST.get('parent')
+                # parent_other = request.POST.get('parent_other')    
 
-                product = Product(name=name, description=description,category=parent_id, image=image)
+                product = Product(name=name, description=description,category=parent_name, image=image)
                 product.save()
                 products = Product.objects.all()
-                root_parents = Menu.objects.filter(parent__isnull=True)
-                root_parents_with_children = []
+                
+                categories = Category.objects.all()
+                subcategories = SubCategory.objects.all()              
 
-                for parent in root_parents:
-                    children = parent.children.first()
-                    root_parents_with_children.append((parent, children))
-
-                return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+                return render(request, 'admindashboard.html', {'Product':products,'categories': categories, 'subcategories': subcategories})
             except:
                 return HttpResponse('Product not found...')
         
@@ -97,30 +68,14 @@ def home(request):
         else:
             
             
-            root_menus = Menu.objects.filter(parent=None)
-            menus = Menu.objects.all().order_by('parent_id')
-            for root_menu in root_menus:
-                root_menu.children.set(root_menu.children.all())
-
-            menu_tree = []
-            for root_menu in root_menus:
-                menu_tree.append(get_menu_tree(root_menu))
-                
-                
-            parent = Menu.objects.first()
-            children = parent.children.all()[:1]
-            context = {'parent': parent, 'children': children}
+            categories = Category.objects.all()
+            subcategories = SubCategory.objects.all()
             
             products = Product.objects.all()
-                    
-            root_parents = Menu.objects.filter(parent__isnull=True)
-            root_parents_with_children = []
+            
+                
 
-            for parent in root_parents:
-                children = parent.children.first()
-                root_parents_with_children.append((parent, children))
-
-            return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+            return render(request, 'admindashboard.html', {'Product':products,'categories': categories, 'subcategories': subcategories})
         
     else:
         return render(request, 'adminlogin.html')
@@ -152,25 +107,18 @@ def updateProduct(request):
                 
                 products = Product.objects.all()
                         
-                root_parents = Menu.objects.filter(parent__isnull=True)
-                root_parents_with_children = []
-
-                for parent in root_parents:
-                    children = parent.children.first()
-                    root_parents_with_children.append((parent, children))
-
-                return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+               
+                categories = Category.objects.all()
+                subcategories = SubCategory.objects.all()
+            
+                return render(request, 'admindashboard.html', {'Product':products,'categories': categories, 'subcategories': subcategories})
                 
             except:
                 products = Product.objects.all()         
-                root_parents = Menu.objects.filter(parent__isnull=True)
-                root_parents_with_children = []
+                categories = Category.objects.all()
+                subcategories = SubCategory.objects.all()
 
-                for parent in root_parents:
-                    children = parent.children.first()
-                    root_parents_with_children.append((parent, children))
-
-                return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+                return render(request, 'admindashboard.html', {'Product':products,'categories': categories, 'subcategories': subcategories})
                 
         
         else:
@@ -178,7 +126,7 @@ def updateProduct(request):
             products = Product.objects.all()
             
                     
-            root_parents = Menu.objects.filter(parent__isnull=True)
+            root_parents = Category.objects.filter(parent__isnull=True)
             root_parents_with_children = []
 
             for parent in root_parents:
@@ -203,66 +151,88 @@ def deleteProduct(request):
                 productid = request.POST['productdeleteid']
                 print("Product id printing")
                 print(productid)
-                delPro = Menu.objects.get(id=productid)
+                delPro = Product.objects.get(id=productid)
                 delPro.delete()
             except:
                 print("Product not found")
         
             products = Product.objects.all()
                         
-            root_parents = Menu.objects.filter(parent__isnull=True)
-            root_parents_with_children = []
+            
 
-            for parent in root_parents:
-                children = parent.children.first()
-                root_parents_with_children.append((parent, children))
-
-            return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+            return render(request, 'admindashboard.html', {'Product':products})
         
         else:
         
             products = Product.objects.all()
                             
-            root_parents = Menu.objects.filter(parent__isnull=True)
-            root_parents_with_children = []
+            
 
-            for parent in root_parents:
-                children = parent.children.first()
-                root_parents_with_children.append((parent, children))
-
-            return render(request, 'admindashboard.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+            return render(request, 'admindashboard.html', {'Product':products})
         
         
     else:
         return render(request, 'adminlogin.html')
+
+
+def update_category(request, category_id, children_id):
+    category = get_object_or_404(Category, id=category_id)
+    subcategory = get_object_or_404(SubCategory, id=children_id)
+
+    if request.method == 'POST':
+        name = request.POST['name']
+        category.name = name
+        category.save()
+        subcatname = request.POST['subcategory']
+        subcategory.name = subcatname
+        subcategory.save()
+        return redirect('viewadminproducts')  # Redirect back to the admin page
+    
+    else:
+        return render(request, 'editcategory.html', {'category': category,'subcategory': subcategory})
+
+
+
     
     
-    
-    
+def delete_category(request, category_id):
+    if request.method == 'POST':
+        print("my category id")
+        print(category_id)
+        category = Category.objects.get(id=category_id)
+
+        if category.subcategories.exists():
+            return redirect('viewadminproducts')  
+
+       
+        category.delete()
+        return redirect('viewadminproducts')
+    else:
+        root_parents_with_children = []
+        categories = Category.objects.all()
+
+        for parent in categories:
+            children = parent.subcategories.first()
+            root_parents_with_children.append((parent, children))
+        return render(request, 'viewadminproducts.html', {'root_parents_with_children': root_parents_with_children})
 def userHome(request):
     try:
-        
+        categories = Category.objects.all()
+        subcategories = SubCategory.objects.all()
         products = Product.objects.all()
-        root_menus = Menu.objects.filter(parent=None)
-        menus = Menu.objects.all().order_by('parent_id')
-        for root_menu in root_menus:
-            root_menu.children.set(root_menu.children.all())
-
-        menu_tree = []
-        for root_menu in root_menus:
-            menu_tree.append(get_menu_tree(root_menu))
-            
-            
-        parent = Menu.objects.first()
-        children = parent.children.all()[:1]
-        context = {'parent': parent, 'children': children}
-        return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+        
+        return render(request, 'userhome.html', {
+            'Product': products,
+            'parent_categories': categories,
+            'subcategories': subcategories
+        })
     except:
         return render(request, 'userhome.html')
+    
 def userproductonclick(request):
     products = Product.objects.all()
-    root_menus = Menu.objects.filter(parent=None)
-    menus = Menu.objects.all().order_by('parent_id')
+    root_menus = Category.objects.filter(parent=None)
+    menus = Category.objects.all().order_by('parent_id')
     for root_menu in root_menus:
         root_menu.children.set(root_menu.children.all())
 
@@ -271,11 +241,10 @@ def userproductonclick(request):
         menu_tree.append(get_menu_tree(root_menu))
         
         
-    parent = Menu.objects.first()
+    parent = Category.objects.first()
     children = parent.children.all()[:1]
     context = {'parent': parent, 'children': children}
     return render(request, 'userproducts.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
-
 
 
 
@@ -285,27 +254,58 @@ def viewAdminProduct(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        if(username == user and password == passw):
-            
+        if username == user and password == passw:
             request.session['admin'] = "yes"
             products = Product.objects.all()
 
-            return render(request, 'viewadminproducts.html', {'Product':products})
+            return render(request, 'viewadminproducts.html', {'Product': products})
            
         return render(request, 'adminlogin.html')
     else:
         if 'admin' in request.session:
-            products = Product.objects.all()
-            root_parents = Menu.objects.filter(parent__isnull=True)
-            root_parents_with_children = []
+            try:
+                categories = Category.objects.filter(subcategories__isnull=False).distinct()
+                root_parents_with_children = []
 
-            for parent in root_parents:
-                children = parent.children.first()
-                root_parents_with_children.append((parent, children))
+                for parent in categories:
+                    children = parent.subcategories.all()
+                    root_parents_with_children.append((parent, children))
+                    
+               
 
-            return render(request, 'viewadminproducts.html', {'Product':products,"children":children,"root_parents_with_children":root_parents_with_children})
+                return render(request, 'viewadminproducts.html', {'root_parents_with_children': root_parents_with_children})
+            except:
+                return render(request, 'viewadminproducts.html')
         return render(request, 'adminlogin.html')
 
+
+
+# def viewAdminProduct(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+
+#         if username == user and password == passw:
+#             request.session['admin'] = "yes"
+#             products = Product.objects.all()
+
+#             return render(request, 'viewadminproducts.html', {'Product': products})
+           
+#         return render(request, 'adminlogin.html')
+#     else:
+#         if 'admin' in request.session:
+#             try:
+#                 root_parents_with_children = []
+#                 categories = Category.objects.all()
+
+#                 for parent in categories:
+#                     children = parent.subcategories.first()
+#                     root_parents_with_children.append((parent, children))
+
+#                 return render(request, 'viewadminproducts.html', {'root_parents_with_children': root_parents_with_children})
+#             except:
+#                 return render(request, 'viewadminproducts.html')
+#         return render(request, 'adminlogin.html')
 
 
 
@@ -361,10 +361,6 @@ def sendEmail(request):
 
 
 
-
-
-
-
 def get_menu_tree(menu, level=0, max_depth=30):
     result = {'name': menu.name, 'level': level, 'children': []}
     if level < max_depth:
@@ -373,44 +369,49 @@ def get_menu_tree(menu, level=0, max_depth=30):
     return result
 
 
+
 def createProductCategory(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         parent_id = request.POST.get('parent')
         parent_other = request.POST.get('parent_other')
+        parent_subcategory_id = request.POST.get('parent_subcategory')
 
-        parent = None
-        if parent_id and parent_id != '__other__':
-            parent = Menu.objects.get(id=parent_id)
+        if parent_id == "__other__":
+            parent_subcategory = SubCategory.objects.get(name=parent_other)
+            subcategory = SubCategory(name=name, parent_subcategory=parent_subcategory)
+            subcategory.save()
+        else:
+            if parent_id:
+                parent_category = Category.objects.get(id=parent_id)
+                if parent_subcategory_id:
+                    parent_subcategory = SubCategory.objects.get(id=parent_subcategory_id)
+                else:
+                    parent_subcategory = None
+            else:
+                parent_category = None
+                parent_subcategory = None
 
-        if parent_other:
-            parent = Menu.objects.create(name=parent_other)
+            if parent_category:
+                subcategory = SubCategory(name=name, parent_category=parent_category, parent_subcategory=parent_subcategory)
+                subcategory.save()
+            elif parent_subcategory:
+                subcategory = SubCategory(name=name, parent_subcategory=parent_subcategory)
+                subcategory.save()
+            else:
+                category = Category(name=name)
+                category.save()
 
-        menu = Menu.objects.create(name=name, parent=parent)
-        menus = Menu.objects.all().order_by('parent_id')
-
-        return redirect("admin")
+        return redirect("admin")  # Replace "admin" with your desired redirect URL
 
     else:
-        root_menus = Menu.objects.filter(parent=None)
-        menus = Menu.objects.all().order_by('parent_id')
-        for root_menu in root_menus:
-            root_menu.children.set(root_menu.children.all())
+        categories = Category.objects.all()
+        subcategories = SubCategory.objects.all()
 
-        menu_tree = []
-        for root_menu in root_menus:
-            menu_tree.append(get_menu_tree(root_menu))
-            
-            
-        parent = Menu.objects.first()
-        children = parent.children.all()[:1]
-        context = {'parent': parent, 'children': children}
-        
-  
-        
+        return render(request, 'addcategory.html', {'categories': categories, 'subcategories': subcategories})
 
-        
-        return render(request, 'addcategory.html', {'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+
+
 
 
 
@@ -419,8 +420,8 @@ def createProductCategory(request):
 def aboutUs(request):
     try:
         products = Product.objects.all()
-        root_menus = Menu.objects.filter(parent=None)
-        menus = Menu.objects.all().order_by('parent_id')
+        root_menus = Category.objects.filter(parent=None)
+        menus = Category.objects.all().order_by('parent_id')
         for root_menu in root_menus:
             root_menu.children.set(root_menu.children.all())
 
@@ -429,7 +430,7 @@ def aboutUs(request):
             menu_tree.append(get_menu_tree(root_menu))
             
             
-        parent = Menu.objects.first()
+        parent = Category.objects.first()
         children = parent.children.all()[:1]
         context = {'parent': parent, 'children': children}
         return render(request, 'aboutus.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
@@ -449,8 +450,8 @@ def products_by_category(request,menu_name):
 
         try:
             
-            root_menus = Menu.objects.filter(parent=None)
-            menus = Menu.objects.all().order_by('parent_id')
+            root_menus = Category.objects.filter(parent=None)
+            menus = Category.objects.all().order_by('parent_id')
             for root_menu in root_menus:
                 root_menu.children.set(root_menu.children.all())
 
@@ -459,7 +460,7 @@ def products_by_category(request,menu_name):
                 menu_tree.append(get_menu_tree(root_menu))
                 
                 
-            parent = Menu.objects.first()
+            parent = Category.objects.first()
             children = parent.children.all()[:1]
             context = {'parent': parent, 'children': children}
             return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
@@ -506,8 +507,8 @@ def feedBack(request):
         try:
             
             products = Product.objects.all()
-            root_menus = Menu.objects.filter(parent=None)
-            menus = Menu.objects.all().order_by('parent_id')
+            root_menus = Category.objects.filter(parent=None)
+            menus = Category.objects.all().order_by('parent_id')
             for root_menu in root_menus:
                 root_menu.children.set(root_menu.children.all())
 
@@ -516,16 +517,12 @@ def feedBack(request):
                 menu_tree.append(get_menu_tree(root_menu))
                 
                 
-            parent = Menu.objects.first()
+            parent = Category.objects.first()
             children = parent.children.all()[:1]
             context = {'parent': parent, 'children': children}
             return render(request, 'userfeedback.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
         except:
             return render(request, 'userfeedback.html')
-        
-        
-        
-        
         
 def ourPresence(request):
     return render(request, 'ourpresence.html')

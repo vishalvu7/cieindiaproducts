@@ -394,9 +394,49 @@
     </div>
 
 
-
-
     <table class="productdetails">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Product</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for parent, children in root_parents_with_children %}
+            <tr>
+                <td>{{ parent.name }}</td>
+                <td>
+                    {% if children %}
+                        {% for child in children %}
+                            {{ child.name }}
+                        {% endfor %}
+                    {% else %}
+                        No Data
+                    {% endif %}
+                </td>
+                <td>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <form action="{% url 'delete_category' parent.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="productdeleteid" value="{{ parent.id }}">
+                            <input type="hidden" name="product_id" value="{% if children %}{{ children.0.id }}{% endif %}">
+                            <button type="submit" style="display: inline-block; padding: 6px 10px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px; transition: background-color 0.3s ease; margin-right:10px">Delete</button>
+                        </form>
+                        <a href="{% url 'admin' %}">View</a>
+                        <a href="{% url 'update_category' parent.id children.0.id %}" style="margin-left: 10px">Edit</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+
+
+
+    {% comment %} <table class="productdetails">
         <thead>
             <tr>
                 <th>Category</th>
@@ -413,7 +453,7 @@
                     <div style="display: flex;
                     justify-content: center;
                     align-items: center;">
-                        <form action="{% url 'delete' %}" method="post">
+                        <form action="{% url 'delete_category' parent.id %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="productdeleteid" value="{{ parent.id }}">
                             <input type="hidden" name="product_id" value="{% if children %}{{ children.id }}{% endif %}">
@@ -426,13 +466,14 @@
                             transition: background-color 0.3s ease; margin-right:10px">Delete</button>
                         </form>
                         <a href="{% url 'admin' %}" >View</a>
+                        <a href="{% url 'update_category' parent.id children.id %}" style="margin-left: 10px">Edit</a>
+
                     </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
-    </table>
-
+    </table> {% endcomment %}
 
 
 

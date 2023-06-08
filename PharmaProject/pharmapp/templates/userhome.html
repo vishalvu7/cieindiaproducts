@@ -273,10 +273,13 @@
       margin: 0;
       padding: 0;
       background-color: #333;
+      display: flex; /* Added */
+      flex-direction: column; /* Added */
     }
-
+  
     .dropdown-content ul li {
-      padding: 12px 16px;
+      {% comment %} padding: 12px 16px; {% endcomment %}
+      display: block; /* Added */
     }
 
     .dropdown-content ul li:hover {
@@ -532,62 +535,51 @@
   <!-- addcategory.html -->
   <div class="menu-bar">
     <ul>
-      <li><a href="/" style="font-size: 14px;">Home</a></li>
-      <li class="dropdown">
-        <a href="/" style="font-size: 14px;">Products</a>
-        <ul class="dropdown-content">
-          {% for menu in menu_tree %}
-          <li class="dropdown">
-            
-            <a  href="{% url 'bycategory' menu.name  %}">{{ menu.name }}</a>
-            {% if menu.children %}
+        <li><a href="/" style="font-size: 14px;">Home</a></li>
+        <li class="dropdown">
+            <a href="/" style="font-size: 14px;">Products</a>
             <ul class="dropdown-content">
-              {% for submenu in menu.children %}
-              <li class="dropdown">
-                <a href="/" style="white-space: nowrap;">{{ submenu.name }}</a>
-                {% if submenu.children %}
-                <ul class="dropdown-content">
-                  {% for subsubmenu in submenu.children %}
-                  <li><a href="/">{{ subsubmenu.name }}</a></li>
-                  <!-- continue nesting as necessary for more levels -->
-                  {% endfor %}
-                </ul>
-                {% endif %}
-              </li>
-              {% endfor %}
+                {% for parent_category in parent_categories %}
+                <li class="dropdown">
+                    <a href="{% url 'bycategory' parent_category.name %}">{{ parent_category.name }}</a>
+                    {% if subcategories %}
+                    <ul class="dropdown-content">
+                        {% for subcategory in subcategories %}
+                        {% if subcategory.parent_category == parent_category %}
+                        <li class="dropdown">
+                            <a href="/" style="white-space: nowrap;">{{ subcategory.name }}</a>
+                            {% if subcategory.subcategories.all %}
+                            <ul class="dropdown-content">
+                                {% for subsubcategory in subcategory.subcategories.all %}
+                                <li><a href="/">{{ subsubcategory.name }}</a></li>
+                                <!-- continue nesting as necessary for more levels -->
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
             </ul>
-            {% endif %}
-          </li>
-          {% endfor %}
-        </ul>
-      </li>
-      <li><a href="/about" style="font-size: 14px;">About Us</a></li>
-      <!-- <li><a href="/userproducts">Products</a></li> -->
-      <li><a href="/feedback" style="font-size: 14px;">Feedback</a></li>
-      <li><a href="/map" style="font-size: 14px;">Our Presence</a></li>
+        </li>
+        <li><a href="/about" style="font-size: 14px;">About Us</a></li>
+        <li><a href="/feedback" style="font-size: 14px;">Feedback</a></li>
+        <li><a href="/map" style="font-size: 14px;">Our Presence</a></li>
 
-      <li>
-        <div class="search-container">
+        <li>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search..." oninput="searchProducts()">
+                <button id="search-button">Search</button>
+            </div>
+        </li>
 
-          <input type="text" id="search-input" placeholder="Search..." oninput="searchProducts()">
-          <button id="search-button">Search</button>
-        </div>
-      </li>
-
-
-      <button id="getquoteButton" style="width: 115px;
-            height: 36px;
-            background-color: burlywood;
-            border: none;
-            border-radius: 12px;
-            margin-right: 20px;
-            margin-top: 15px;
-            position: absolute;
-            right: 0px;
-            top: -9px;" onclick="opencontactpopup()">Get
-        Quotation</button>
+        <button id="getquoteButton" style="width: 115px; height: 36px; background-color: burlywood; border: none; border-radius: 12px; margin-right: 20px; margin-top: 15px; position: absolute; right: 0px; top: -9px;" onclick="opencontactpopup()">Get Quotation</button>
     </ul>
-  </div>
+</div>
+
 
 
 
