@@ -547,7 +547,7 @@
                         {% for subcategory in subcategories %}
                         {% if subcategory.parent_category == parent_category %}
                         <li class="dropdown">
-                            <a href="/" style="white-space: nowrap;">{{ subcategory.name }}</a>
+                            <a href="{% url 'bycategory' subcategory.name %}" style="white-space: nowrap;">{{ subcategory.name }}</a>
                             {% if subcategory.subcategories.all %}
                             <ul class="dropdown-content">
                                 {% for subsubcategory in subcategory.subcategories.all %}

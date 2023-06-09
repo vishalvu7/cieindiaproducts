@@ -437,9 +437,8 @@ def aboutUs(request):
     except:
         return render(request, 'aboutus.html')
     
-    
-    
-    
+
+
 def products_by_category(request,menu_name):
     if request.method == 'GET':
         # menu_name = request.GET.get('catname')
@@ -450,22 +449,42 @@ def products_by_category(request,menu_name):
 
         try:
             
-            root_menus = Category.objects.filter(parent=None)
-            menus = Category.objects.all().order_by('parent_id')
-            for root_menu in root_menus:
-                root_menu.children.set(root_menu.children.all())
+            categories = Category.objects.all()
+            subcategories = SubCategory.objects.all()
+               
 
-            menu_tree = []
-            for root_menu in root_menus:
-                menu_tree.append(get_menu_tree(root_menu))
-                
-                
-            parent = Category.objects.first()
-            children = parent.children.all()[:1]
-            context = {'parent': parent, 'children': children}
-            return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+            return render(request, 'userhome.html', {'Product':products,'categories': categories, 'subcategories': subcategories})
+            
         except:
-             return render(request, 'userhome.html')
+             return render(request, 'userhome.html')    
+    
+    
+# def products_by_category(request,menu_name):
+#     if request.method == 'GET':
+#         # menu_name = request.GET.get('catname')
+    
+    
+#         products = Product.objects.filter(category=menu_name)
+
+
+#         try:
+            
+#             root_menus = Category.objects.filter(parent=None)
+#             menus = Category.objects.all().order_by('parent_id')
+#             for root_menu in root_menus:
+#                 root_menu.children.set(root_menu.children.all())
+
+#             menu_tree = []
+#             for root_menu in root_menus:
+#                 menu_tree.append(get_menu_tree(root_menu))
+                
+                
+#             parent = Category.objects.first()
+#             children = parent.children.all()[:1]
+#             context = {'parent': parent, 'children': children}
+#             return render(request, 'userhome.html',{"Product":products,'menu_tree': menu_tree,"menuss":menus,'parent': parent,'children': children})
+#         except:
+#              return render(request, 'userhome.html')
     
     
     
